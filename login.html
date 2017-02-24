@@ -1,0 +1,84 @@
+<?php
+require './Api/User/VerifySession.php';
+destroySession();
+?>
+<!DOCTYPE html>
+<html>
+	<head>		
+		<title>Cafeto</title>
+		<link rel="stylesheet" href="./Styles/styles.css">
+		<link rel="stylesheet" href="./Styles/jquery-ui.min.css">
+		<script src="./Scripts/jquery-3.1.1.min.js"></script>
+		<script src="./Scripts/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
+		<script src="./Scripts/list.min.js"></script>
+		<script src="./Scripts/mindmup-editabletable2.js"></script>
+    </head>
+	<body>
+		<div class="wrapper">
+			<div class="logoheaderwrap">
+				<div class="logoheader">
+				<div class="logo">
+						<a href="index.php">
+						  <img src="Images/cafetologo.png" alt="el cafeto" width="auto" height="30">
+						</a>						
+				</div>
+				</div>
+			</div>
+			<div class="headerwrap">
+				<div class="header">
+					<div class="session">
+						<span id="loginUser"><?php showUserName();?> </span><button onclick="window.location.href='./login.html'"><?php showButtonName(); ?></button>
+					</div>
+				</div>
+			</div>
+			<div class="navigationwrap">
+				<div class="navigation">
+					<button id="buttonHall" onclick="window.location.href='./hall.html'">Salon</button>
+					<button id="buttonCash" onclick="window.location.href='./cash.html'">Caja</button>
+					<button id="buttonProducts" onclick="window.location.href='./products.html'">Productos</button>
+					<button id="buttonAcounts" onclick="window.location.href='./accounts.html'">Cuentas</button>
+					<button id="buttonUsers" onclick="window.location.href='./users.html'">Usuarios</button>
+					<button id="buttonSystem" onclick="window.location.href='./system.html'">Sistema</button>
+				</div>
+			</div>
+			<div class="leftcolumnwrap">
+				<div class="leftcolumn">
+					
+					
+				</div>
+			</div>	
+			<div class="middlecolumnwrap">
+				<div class="middlecolumn">
+					<form id="userform" action="./Api/User/Login.php" method="post">
+						<ul>
+							<li>
+								<label for="username">Nombre de Usuario:</label>
+								<input type="text" id="username" name="username"><br>
+							</li>				
+							<li>
+								<label for="password">Password:</label>
+								<input type="password" id="password" name="password"><br>
+							</li>
+							<li>
+							<li>
+								<button id="btnSubmit" type="submit">Iniciar sesion</button>
+							</li>
+						</ul>
+					</form>
+				</div>
+			</div>			
+			<div class="rightcolumnwrap">
+				<div class="rightcolumn">
+				</div>
+			</div>
+			<div class="footerwrap">
+				<div class="footer">
+					<p><span id="powered">Powered by </span><a href="http://www.linkedin.com/in/sebastian-mora-b1785131">SM</a></p>
+				</div>
+			</div>
+		</div>
+		<div >
+		
+		</div>		
+	</body>
+</html>
