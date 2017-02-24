@@ -5,12 +5,7 @@ function verifySession(){
 	if(!isset($_SESSION["username"])){
 		header("Location:./login.html");
 		exit();
-	}
-	$uri = str_replace("/Cafeto","",$_SERVER["REQUEST_URI"]) ;
-	$um = new UserManager();
-	$um->isAuthorized($_SESSION["username"],);
-	
-	
+	}	
 	return;
 }
 

@@ -10,6 +10,11 @@ class UserManager
 		$user = R::findOne( 'user', 'username=?', [ $user_name] );
 		return $user;		
 	}
+
+	function isAuthenticated($username, $password){
+		$user = R::findOne( 'user', 'username=?', [ $user_name] );
+		return password_verify($password, $user->encryptedpassword);
+	}		
 	
 	function getUser($id){				
 		$user = R::load('user', $id);;

@@ -4,9 +4,6 @@ if(isset($_REQUEST['username']))
 {
     $username = $_REQUEST['username'];
 }
-else{
-	$username = "";
-}
 if(isset($_REQUEST['email']))
 {
     $email = $_REQUEST['email'];
@@ -23,19 +20,15 @@ if(	session_id()){
 }
 
 $um = new UserManager();
-$user = $um->getUserByName($username);
-if($user==null){
-	echo "Usuario o password incorrecto";
+$authenticated = $um->isAuthenticated($username, $password);
+if(!authenticated){
+	echo "Usuario o password incorrecto.";
 	return;
 }
-if(password_verify ( $password , $user->encryptedpassword )){
-
+else{
 	session_start();
 	
-	$_SESSION["username"]=$user->username;
+	$_SESSION["username"]=$username;
 	header("Location:../../index.php");
-}
-else{
-	echo "Usuario o password incorrecto";
 }
 ?>
