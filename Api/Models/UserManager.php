@@ -12,8 +12,8 @@ class UserManager
 	}
 
 	function isAuthenticated($username, $password){
-		$user = R::findOne( 'user', 'username=?', [ $user_name] );
-		return password_verify($password, $user->encryptedpassword);
+		$user = R::findOne( 'user', 'username=?', [ $username] );
+		return password_verify($password, $user->password);
 	}		
 	
 	function getUser($id){				
@@ -29,7 +29,7 @@ class UserManager
 		  $user = R::dispense( 'user' );
 		  $user->username = $username;
 		  $user->email = $email;
-		  $user->encryptedpassword = password_hash($password , PASSWORD_DEFAULT);
+		  $user->password = password_hash($password , PASSWORD_DEFAULT);
 		  $id = R::store( $user );
 		  return $id;
 	}

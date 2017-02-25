@@ -12,6 +12,8 @@ destroySession();
 		<script src="./Scripts/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
 		<script src="./Scripts/list.min.js"></script>
 		<script src="./Scripts/mindmup-editabletable2.js"></script>
+		<script src="./Scripts/login.js"></script>
+		
     </head>
 	<body>
 		<div class="wrapper">
@@ -49,22 +51,27 @@ destroySession();
 			</div>	
 			<div class="middlecolumnwrap">
 				<div class="middlecolumn">
-					<form id="userform" action="./Api/User/Login.php" method="post">
+					<div id="userLogin">
 						<ul>
 							<li>
 								<label for="username">Nombre de Usuario:</label>
-								<input type="text" id="username" name="username"><br>
+								<input type="text" id="username"><br>
 							</li>				
 							<li>
 								<label for="password">Password:</label>
-								<input type="password" id="password" name="password"><br>
+								<input type="password" id="password"><br>
 							</li>
 							<li>
 							<li>
-								<button id="btnSubmit" type="submit">Iniciar sesion</button>
+								<button id="btnStartSession">Iniciar sesion</button>
 							</li>
 						</ul>
-					</form>
+						<div id="wrong_user">
+							<ul>
+								<li class="invalid"><strong>Usuario o password incorrecto</strong></li>
+							</ul>
+						</div>	
+					</div>
 				</div>
 			</div>			
 			<div class="rightcolumnwrap">
@@ -73,7 +80,7 @@ destroySession();
 			</div>
 			<div class="footerwrap">
 				<div class="footer">
-					<p><span id="powered">Powered by </span><a href="http://www.linkedin.com/in/sebastian-mora-b1785131">SM</a></p>
+					<p><label id="serverMessage"></label><label id="powered"> Powered by <a href="http://www.linkedin.com/in/sebastian-mora-b1785131">SM</a></label>
 				</div>
 			</div>
 		</div>

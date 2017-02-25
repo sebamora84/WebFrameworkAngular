@@ -536,10 +536,6 @@ tr:hover {
 #userWrapper .middlecolumnwrap {
     width: 400px;
 }
-#userform{
-	width: 250px;
-	margin: 75px
-}
 
 #pswd_info {
     position:relative;
@@ -615,5 +611,43 @@ tr:hover {
     padding-left:22px;
     line-height:24px;
     color:#3a7d34;
+}
+/*LOGIN*/
+
+#userLogin{
+	width: 250px;
+	margin: 70px 200px;
+}
+
+#wrong_user {
+    position:relative;
+    top:-38px;
+	left:140px;
+    width:250px;
+    padding:15px;
+    background:#fefefe;
+    font-size:.875em;
+    border-radius:5px;
+    box-shadow:0 1px 3px #ccc;
+    border:1px solid #ddd;
+}
+#wrong_user::before {
+    content: "\25C0";
+    position:absolute;
+    top:10px;
+    left:-14px;
+    font-size:14px;
+    line-height:14px;
+    color:#ddd;
+    text-shadow:none;
+    display:block;
+}
+#wrong_user h4 {
+    margin:0 0 10px 0;
+    padding:0;
+    font-weight:normal;
+}
+#wrong_user {
+    display:none;
 }
  

@@ -21,14 +21,13 @@ if(	session_id()){
 
 $um = new UserManager();
 $authenticated = $um->isAuthenticated($username, $password);
-if(!authenticated){
-	echo "Usuario o password incorrecto.";
+if($authenticated){
+	session_start();
+	$_SESSION["username"]=$username;
+	echo "OK";
 	return;
 }
-else{
-	session_start();
-	
-	$_SESSION["username"]=$username;
-	header("Location:../../index.php");
-}
+echo "NOK";
+return;
+
 ?>
