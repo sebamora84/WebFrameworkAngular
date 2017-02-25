@@ -14,7 +14,7 @@ $(function(){
 						$("#wrong_user").show()
 						return;
 					}
-					redirect = GetURLParameter("rdr");
+					redirect = GetURLParameter("uri");
 					if(redirect== null){
 						$(location).attr('href',"./");
 						return;

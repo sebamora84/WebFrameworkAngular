@@ -1,12 +1,32 @@
 <?php
-include_once '../Models/UserManager.php';
 function verifySession(){
 	session_start();
+	$uri=explode("?",substr($_SERVER['REQUEST_URI'], 1))[0];
 	if(!isset($_SESSION["username"])){
-		header("Location:/login.html?rdr=".substr($_SERVER['REQUEST_URI'], 1));
+		header("Location:/login.html?uri=".$uri);
 		exit();
-	}	
-	return;
+	}
+	echo "3";
+	//The resource was already checked
+	if($uri=="notAuthorized.html"||$uri=="underConstruction.html"){
+		return;
+	}
+	echo "2";
+	//The resource was already checked
+	if($_SESSION["username"]=="superuser"){
+		return;
+	}
+	echo "1";
+	//Check the authorization to the resource	
+	$authorizations = $_SESSION["authorizations"];
+	foreach ($authorizations as &$auth){
+		if($auth["uri"]==$uri){
+			return;
+		}		
+	}
+	
+	header("Location:/notAuthorized.html?uri=".$uri);
+	exit();
 }
 
 function showUserName(){

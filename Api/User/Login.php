@@ -24,6 +24,8 @@ $authenticated = $um->isAuthenticated($username, $password);
 if($authenticated){
 	session_start();
 	$_SESSION["username"]=$username;
+	$_SESSION["authorizations"]= $um->getUserAuthorizations($username);
+	
 	echo "OK";
 	return;
 }

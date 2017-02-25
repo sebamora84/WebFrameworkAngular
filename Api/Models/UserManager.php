@@ -30,29 +30,20 @@ class UserManager
 		  $user->username = $username;
 		  $user->email = $email;
 		  $user->password = password_hash($password , PASSWORD_DEFAULT);
+		  $user->reset = true;
 		  $id = R::store( $user );
 		  return $id;
 	}
 	//Authorization
-	function getResourceByUri($uri){
-		$resource = R::findOne( 'resource', 'uri=? ORDER BY id',[$uri]);
-		return $resource;
-	}
-	function createResource($uri){
+
+	function createResource($uri, $description){
 		$resource = R::dispense( 'resource' );
 		$resource->uri = $uri;
+		$resource->description = $description;
 		$id = R::store( $resource );
 		return $id;
 	}
 	
-	function getRolesByResource($resourceId){
-		$users = R::find( 'role', 'resource_id=? ORDER BY id',[$resourceId]);
-		return $users;
-	}
-	function getRole($id){
-		$role = R::load('role', $id);;
-		return $role;
-	}
 	function createRole($description){
 		$role = R::dispense( 'role' );
 		$role->description = $description;
@@ -74,12 +65,16 @@ class UserManager
 		return $id;
 	}
 	
-	function isAuthorized($username, $uri){
-		$resource = self::getResourceByUri($uri);
-		$authorizedRoles = self::getRolesByResource($resource->id);
-		$user = self::getUserByName($username);
-	}
-	
+	function getUserAuthorizations($username){
+		$sql = "SELECT resource.uri, resource.description FROM user
+				INNER JOIN userrole ON user.id=userrole.user_id
+				INNER JOIN role ON userrole.role_id=role.id
+				INNER JOIN roleresource ON role.id=roleresource.role_id
+				INNER JOIN resource ON roleresource.resource_id=resource.id
+				WHERE user.username = ?";
+		$userAuthorizations = R::getAll($sql, [$username]);
+		return $userAuthorizations;		
+	}	
 }
 
 ?>
