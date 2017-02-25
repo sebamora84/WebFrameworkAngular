@@ -10,7 +10,6 @@ $(function(){
 		$.post("Api/User/Login.php",
 				{username:username, password:password},
 				function(data, status){
-					$("#serverMessage").html(data);
 					if(data!="OK"){
 						$("#wrong_user").show()
 						return;

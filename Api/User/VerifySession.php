@@ -3,7 +3,7 @@ include_once '../Models/UserManager.php';
 function verifySession(){
 	session_start();
 	if(!isset($_SESSION["username"])){
-		header("Location:./login.html?rdr=".substr($_SERVER['REQUEST_URI'], 1));
+		header("Location:/login.html?rdr=".substr($_SERVER['REQUEST_URI'], 1));
 		exit();
 	}	
 	return;

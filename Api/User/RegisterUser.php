@@ -22,5 +22,6 @@ if ($user!=null && $user->id > 0){
 $newId = $um->createUser($username, $email, $password);
 
 $user = $um->getUser($newId);
-echo "Usuario ".$user->username." creado";
+header("Location:/users.html");
+exit();
 ?>
