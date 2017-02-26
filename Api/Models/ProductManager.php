@@ -7,16 +7,17 @@ class ProductManager
 	}
 	//Product	
 	function getProduct($productId){				
-		$product = R::load('product', $productId);;
+		$product = R::load('product', $productId);
 		return $product;
 	}
-	function getAllProduct(){
+	function getAllProducts(){
 		$products = R::findAll( 'product' );
 		return $products;
 	}	
 	function createProduct($description){		
 		  $product = R::dispense( 'product' );
 		  $product->description = $description;
+		  //$product->xownPriceList = array();
 		  $id = R::store( $product );
 		  return $id;
 	}
@@ -33,16 +34,20 @@ class ProductManager
 	
 	//Price
 	function getPrice($priceId){
-		$price = R::load('price', $priceId);;
+		$price = R::load('price', $priceId);
 		return $price;
 	}	
 	function createPrice($productId, $consumptionTypeId, $amount){
 		$price = R::dispense( 'price' );
-		$price->productId = $productId;
-		$price->consumptionTypeId = $consumptionTypeId;
 		$price->amount = $amount;
-		$id = R::store( $price );
-		return $id;
+		$price->consumptionType = R::load('consumptiontype', $consumptionTypeId);
+		$product = R::load('product', $productId);
+		$product->xownPriceList[]=$price;
+		R::store($product);
+		$price->fresh();
+		return $price->id;
+		//$id = R::store( $price );
+		//return $id;
 	}
 	function updatePrice($priceId, $amount){
 		$price = self::getPrice($priceId);

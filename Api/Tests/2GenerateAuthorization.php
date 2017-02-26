@@ -15,8 +15,8 @@ $administrador = $um->createRole("Administrador");
 $encargado = $um->createRole("Encargado");
 $usuario = $um->createRole("Usuario");
 
-$fer = $um->createUser("fernando", "fermagna@hotmail.com", "fernando17");
-$richard = $um->createUser("richard", "richardmagna@hotmail.com", "richard17");
+$fer = $um->createUser("fernando",  "fernando17");
+$richard = $um->createUser("richard",  "richard17");
 
 $um->createRoleResource($administrador, $accounts);
 $um->createRoleResource($administrador, $cash);

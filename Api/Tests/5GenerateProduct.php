@@ -10,6 +10,7 @@ $priceId = $pm->createPrice($productId, 1, 25.00);
 $priceId = $pm->createPrice($productId, 2, 23.00);
 $priceId = $pm->createPrice($productId, 3, 0.00);
 $priceId = $pm->createPrice($productId, 4, 20.00);
+$product=$pm->getProduct($productId);
 
 $productId = $pm->createProduct('Cortado Chico');
 $priceId = $pm->createPrice($productId, 1, 25.00);

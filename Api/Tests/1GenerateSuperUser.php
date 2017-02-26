@@ -5,6 +5,6 @@ include_once '../Models/UserManager.php';
 $um = new UserManager();
 //encrypt password
 
-$newId = $um->createUser("superuser", "sebamora@gmail.com", "superuser248");
+$newId = $um->createUser("superuser",  "superuser248!");
 
 ?>

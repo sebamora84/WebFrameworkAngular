@@ -6,14 +6,15 @@ class UserManager
 		require_once '../Database/dbsetup.php';
 	}
 	
-	function getUserByName($user_name){
-		$user = R::findOne( 'user', 'username=?', [ $user_name] );
+	function getUserByName($username){
+		$user = R::findOne( 'user', 'username=?', [ $username] );
 		return $user;		
 	}
 
 	function isAuthenticated($username, $password){
 		$user = R::findOne( 'user', 'username=?', [ $username] );
-		return password_verify($password, $user->password);
+		$auth = $user->ownAuthorizationList[0];
+		return password_verify($password, $auth->hash);
 	}		
 	
 	function getUser($id){				
@@ -25,17 +26,36 @@ class UserManager
 		return $users;
 	}
 	
-	function createUser($username, $email, $password){		
+	function createUser($username, $password){		
 		  $user = R::dispense( 'user' );
 		  $user->username = $username;
-		  $user->email = $email;
-		  $user->password = password_hash($password , PASSWORD_DEFAULT);
 		  $user->reset = true;
+		  $user->sharedRoleList=array();
 		  $id = R::store( $user );
+
+		  $auth = R::dispense( 'authentication' );
+		  $auth->user=$user;
+		  $auth->hash=password_hash($password , PASSWORD_DEFAULT);
+		  R::store( $auth );
+		  
 		  return $id;
 	}
+	
 	//Authorization
-
+	
+	function createRole($description){
+		$role = R::dispense( 'role' );
+		$role->description = $description;
+		$role->sharedResourceList=array();
+		$id = R::store( $role );
+		return $id;
+	}
+	function createUserRole($userId, $roleId){
+		$user = R::load('user', $userId);
+		$user->sharedRoleList[]=R::load('role', $roleId);
+		$id = R::store( $user );
+		return $id;
+	}
 	function createResource($uri, $description){
 		$resource = R::dispense( 'resource' );
 		$resource->uri = $uri;
@@ -43,38 +63,22 @@ class UserManager
 		$id = R::store( $resource );
 		return $id;
 	}
-	
-	function createRole($description){
-		$role = R::dispense( 'role' );
-		$role->description = $description;
+	function createRoleResource($roleId, $resourceId){
+		$role = R::load('role', $roleId);
+		$role->sharedResourceList[]=R::load('resource', $resourceId);
 		$id = R::store( $role );
 		return $id;
 	}
-	function createRoleResource( $roleId, $resourceId){
-		$roleresource = R::dispense( 'roleresource' );
-		$roleresource->roleId = $roleId;
-		$roleresource->resourceId = $resourceId;
-		$id = R::store( $roleresource );
-		return $id;		
-	}
-	function createUserRole($userId, $roleId){
-		$userrole = R::dispense( 'userrole' );
-		$userrole->roleId = $roleId;
-		$userrole->userId = $userId;
-		$id = R::store( $userrole );
-		return $id;
-	}
-	
 	function getUserAuthorizations($username){
-		$sql = "SELECT resource.uri, resource.description FROM user
-				INNER JOIN userrole ON user.id=userrole.user_id
-				INNER JOIN role ON userrole.role_id=role.id
-				INNER JOIN roleresource ON role.id=roleresource.role_id
-				INNER JOIN resource ON roleresource.resource_id=resource.id
+		$sql = "SELECT role.description as role, resource.description as resource, resource.uri FROM user
+				INNER JOIN role_user ON user.id=role_user.user_id
+				INNER JOIN role ON role_user.role_id=role.id
+				INNER JOIN resource_role ON role.id=resource_role.role_id
+				INNER JOIN resource ON resource_role.resource_id=resource.id
 				WHERE user.username = ?";
 		$userAuthorizations = R::getAll($sql, [$username]);
-		return $userAuthorizations;		
-	}	
+		return $userAuthorizations;
+	}
 }
 
 ?>

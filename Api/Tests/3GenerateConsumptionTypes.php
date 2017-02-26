@@ -15,12 +15,12 @@ $consumptionTypePedido = $cm->getConsumptionType($consumptionTypeIdPedido);
 echo json_encode($consumptionTypePedido);
 echo '<p>';
 
-$consumptionTypeIdInterno = $cm->createConsumptionType("Interno");
+$consumptionTypeIdInterno = $cm->createConsumptionType("Familia");
 $consumptionTypeInterno = $cm->getConsumptionType($consumptionTypeIdInterno);
 echo json_encode($consumptionTypeInterno);
 echo '<p>';
 
-$consumptionTypeIdDescuento = $cm->createConsumptionType("Descuento");
+$consumptionTypeIdDescuento = $cm->createConsumptionType("Amigos");
 $consumptionTypeDescuento = $cm->getConsumptionType($consumptionTypeIdDescuento);
 echo json_encode($consumptionTypeDescuento);
 echo '<p>';

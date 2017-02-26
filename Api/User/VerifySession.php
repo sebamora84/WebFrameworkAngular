@@ -10,14 +10,14 @@ function verifySession(){
 	if($uri=="notAuthorized.html"||$uri=="underConstruction.html"){
 		return;
 	}
-	//The resource was already checked
+	//The super user has access to all
 	if($_SESSION["username"]=="superuser"){
 		return;
-	} 
+	}
 	//Check the authorization to the resource	
-	$authorizations = $_SESSION["authorizations"];
-	foreach ($authorizations as &$auth){
-		if($auth["uri"]==$uri){
+	$resources = $_SESSION["resources"];
+	foreach ($resources as &$resource){
+		if($resource["uri"]==$uri){
 			return;
 		}		
 	}

@@ -86,7 +86,7 @@ function loadAllProducts(){
 									'<label id="productDescription'+product.id+'" class="productDescription">'+product.description+'</label>'+
 								'</td>'+
 							'</tr>');
-					$.post("Api/Product/GetAllPricesByProduct.php",
+					$.post("Api/Product/GetAPricesByProduct.php",
 				    		{ productId: product.id},
 							function(data, status){
 						var prices = JSON.parse(data);
@@ -129,7 +129,7 @@ function loadAllProducts(){
 				    productDescription=product[1].innerHTML;
 				    $('#productId').val(productId);
 				    $('#productDescription').val(productDescription);
-				    $.post("Api/Product/GetAllPricesByProduct.php",
+				    $.post("Api/Product/GetPricesByProduct.php",
 				    		{ productId: productId},
 							function(data, status){
 						var prices = JSON.parse(data);
