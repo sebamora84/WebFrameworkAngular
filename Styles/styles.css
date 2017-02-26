@@ -168,12 +168,16 @@ button:hover:enabled {
 }
 
 button:active:enabled {
+	background:#3cb0fd;
 	position:relative;
 	top:1px;
 }
 
 button:disabled {	
   	background: #c0c0c0;
+}
+.currentButton{
+	background:#3cb0fd;
 }
 
 input {

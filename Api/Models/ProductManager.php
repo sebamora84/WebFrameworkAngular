@@ -5,6 +5,21 @@ class ProductManager
 	function __construct(){
 		require_once '../Database/dbsetup.php';
 	}
+	//ConsumptionType
+	function getConsumptionType($id){
+		$consumptionType = R::load('consumptiontype', $id);;
+		return $consumptionType;
+	}
+	function getAllConsumptionTypes(){
+		$consumptionTypes = R::findAll( 'consumptiontype' );
+		return $consumptionTypes;
+	}
+	function createConsumptionType($description){
+		$consumptionType = R::dispense( 'consumptiontype' );
+		$consumptionType->description = $description;
+		$id = R::store( $consumptionType );
+		return $id;
+	}
 	//Product	
 	function getProduct($productId){				
 		$product = R::load('product', $productId);

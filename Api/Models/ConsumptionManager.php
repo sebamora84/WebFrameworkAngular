@@ -30,17 +30,14 @@ class ConsumptionManager
 		$consumptions = R::find('consumption','status = "open" ORDER BY id DESC');
 		return $consumptions;
 	}
-	function getConsumption($id){				
-		$consumption = R::load('consumption', $id);;
+	function getConsumption($consumptionId){				
+		$consumption = R::load('consumption', $consumptionId);;
 		return $consumption;
 	}	
 	function getClosedConsumptionsTotalByDates($startDate, $endDate){
-		$consumptions = R::find( 'consumption', 'status="close" AND closed >= ? AND closed <= ? ORDER BY id', [ $startDate, $endDate ] );
-		$total = 0.00;
-		foreach( $consumptions as $consumption ) {
-			$total += floatval($consumption->total);
-		}
-		return $total;
+		$sql = 'SELECT SUM(consumption.total) as total FROM consumption
+				WHERE status="close" AND closed > ? AND closed <= ?';
+		return R::getCell($sql, [ $startDate, $endDate ]) ;
 	}
 	function getClosedConsumptionsByDates($startDate, $endDate){
 		$consumptions = R::find( 'consumption', 'status="close" AND closed >= ? AND closed <= ? ORDER BY id DESC', [ $startDate, $endDate ] );
@@ -61,28 +58,23 @@ class ConsumptionManager
 		  $id = R::store( $consumption );
 		  return $id;
 	}	
-	function updateConsumptionTotal($id){		
-		$items = self::getItemsByConsumption($id);
+	function updateConsumptionTotal($consumptionId){
+		$consumption = self::getConsumption($consumptionId);
 		$subtotal = 0.00;		
-		foreach( $items as $item ) {
+		foreach( $consumption->xownItemList as $item ) {
 			$subtotal += floatval($item->subtotal);
-		}		
-		$consumption = self::getConsumption($id);
+		}	
 		$consumption->subtotal = $subtotal;
 		$consumption->total = $consumption->subtotal - $consumption->discount;
 		$consumption->lastModified = date("Y-m-d H:i:s");
 		R::store( $consumption );
 		$consumption->fresh();
-		/*if(sizeof($items)==0){
-			self::cancelConsumption($consumption->id);			
-		}*/
 		return $consumption;		
 	}	
-	function updateConsumptionType($consumptionId, $consumptionTypeId){
+	function updateConsumptionType($consumptionId, $consumptionTypeId, $consumptionTypeDescription){
 		$consumption = self::getConsumption($consumptionId);
-		$consumptionType = self::getConsumptionType($consumptionTypeId);
-		$consumption->consumptionTypeId = $consumptionType->id;
-		$consumption->consumptionTypeDescription = $consumptionType->description;
+		$consumption->consumptionTypeId = $consumptionTypeId;
+		$consumption->consumptionTypeDescription = $consumptionTypeDescription;
 		$consumption->lastModified = date("Y-m-d H:i:s");
 		R::store( $consumption );
 		$consumption->fresh();
@@ -97,8 +89,8 @@ class ConsumptionManager
 		$consumption = self::updateConsumptionTotal($consumptionId);
 		return $consumption;
 	}
-	function closeConsumption($id){
-		$consumption = self::getConsumption($id);
+	function closeConsumption($consumptionId){
+		$consumption = self::getConsumption($consumptionId);
 		$consumption->status="close";
 		$consumption->closed = date("Y-m-d H:i:s");
 		R::store( $consumption );
@@ -125,14 +117,14 @@ class ConsumptionManager
 		return $item;
 	}
 	
-	function getItem($id){				
-		$item = R::load('item', $id);;
+	function getItem($itemId){				
+		$item = R::load('item', $itemId);;
 		return $item;
 	}
 	
 	function createItem($consumptionId, $productId, $productDescription, $productUnitPrice){		
 		  $item = R::dispense( 'item' );
-		  $item->consumptionId = $consumptionId;
+		  $item->consumption = self::getConsumption($consumptionId);
 		  $item->productId = $productId;
 		  $item->productDescription = $productDescription;
 		  $item->productUnitPrice = $productUnitPrice;

@@ -12,7 +12,8 @@ if(isset($_REQUEST['consumptionTypeId']))
 
 $cm = new ConsumptionManager();
 $pm = new ProductManager();
-$cm->updateConsumptionType($consumptionId, $consumptionTypeId);
+$consumptionType = $cm->getConsumptionType($consumptionTypeId);
+$cm->updateConsumptionType($consumptionId, $consumptionType->id, $consumptionType->description);
 $items = $cm->getItemsByConsumption($consumptionId);
 foreach( $items as $item ) {
 	$price = $pm->getPriceByConsumptionType($item->productId, $consumptionTypeId);

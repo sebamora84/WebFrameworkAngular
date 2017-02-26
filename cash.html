@@ -1,5 +1,6 @@
 <?php
 require './Api/User/VerifySession.php';
+require './Api/Controls/Buttons.php';
 verifySession();
 ?>
 <!DOCTYPE html>
@@ -28,18 +29,18 @@ verifySession();
 			<div class="headerwrap">
 				<div class="header">
 					<div class="session">
-						<span id="loginUser"><?php showUserName();?> </span><button onclick="window.location.href='./login.html'"><?php showButtonName(); ?></button>
+						<?php 
+							profileButton();
+							sessionButton();
+						?>
 					</div>
 				</div>
 			</div>
 			<div class="navigationwrap">
 				<div class="navigation">
-					<button id="buttonHall" onclick="window.location.href='./hall.html'">Salon</button>
-					<button id="buttonCash" onclick="window.location.href='./cash.html'">Caja</button>
-					<button id="buttonProducts" onclick="window.location.href='./products.html'">Productos</button>
-					<button id="buttonAcounts" onclick="window.location.href='./accounts.html'">Cuentas</button>
-					<button id="buttonUsers" onclick="window.location.href='./users.html'">Usuarios</button>
-					<button id="buttonSystem" onclick="window.location.href='./system.html'">Sistema</button>
+					<?php 
+						menuButtons();
+					?>
 				</div>
 			</div>
 			<div class="leftcolumnwrap">

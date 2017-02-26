@@ -1,6 +1,16 @@
 <?php
 function verifySession(){
+	if (isset($_SESSION['discard_after']) && time() > $_SESSION['discard_after']) {
+		session_start();
+		// remove all session variables
+		session_unset();
+		// destroy the session
+		session_destroy();
+		header("Location:/notAuthorized.html?uri=".$uri."&m=expired");
+		exit();
+	}
 	session_start();
+	
 	$uri=explode("?",substr($_SERVER['REQUEST_URI'], 1))[0];
 	if(!isset($_SESSION["username"])){
 		header("Location:/login.html?uri=".$uri);
@@ -19,42 +29,18 @@ function verifySession(){
 	foreach ($resources as &$resource){
 		if($resource["uri"]==$uri){
 			return;
-		}		
+		}
 	}
 	
-	header("Location:/notAuthorized.html?uri=".$uri);
+	header("Location:/notAuthorized.html?uri=".$uri."&m=nauth");
 	exit();
-}
-
-function showUserName(){
-	if(isset($_SESSION["username"])){
-		echo "Bienvenido ".$_SESSION["username"].". ";
-		return;
-	}
-	else{
-		echo "Inicie Sesion. ";
-		return;
-	}
-}
-
-function showButtonName(){
-	if(isset($_SESSION["username"])){
-		echo "Cerrar Sesion";
-		return;
-	}
-	else{
-		echo "Iniciar Sesion";
-		return;
-	}
 }
 
 function destroySession(){
 	session_start();
-	if(	session_id()){
-		// remove all session variables
-		session_unset();
-		// destroy the session
-		session_destroy();
-	}
+	// remove all session variables
+	session_unset();
+	// destroy the session
+	session_destroy();
 }
 ?>

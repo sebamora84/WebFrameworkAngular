@@ -12,7 +12,7 @@ $user = $um->getUserByName($username);
 echo "<p>";
 echo json_encode($user);
 echo "<p>";
-echo json_encode(reset($user->ownAuthenticationList)->hash);
+echo json_encode(reset($user->xownAuthenticationList)->hash);
 echo "<p>";
 echo json_encode($user);
 echo "<p>";
