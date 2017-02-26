@@ -6,17 +6,14 @@ function verifySession(){
 		header("Location:/login.html?uri=".$uri);
 		exit();
 	}
-	echo "3";
 	//The resource was already checked
 	if($uri=="notAuthorized.html"||$uri=="underConstruction.html"){
 		return;
 	}
-	echo "2";
 	//The resource was already checked
 	if($_SESSION["username"]=="superuser"){
 		return;
-	}
-	echo "1";
+	} 
 	//Check the authorization to the resource	
 	$authorizations = $_SESSION["authorizations"];
 	foreach ($authorizations as &$auth){
