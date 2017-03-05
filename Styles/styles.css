@@ -530,7 +530,7 @@ tr:hover {
     width: 400px;
 }
 
-#productsDetailTable{
+#productsDetailContainer{
 	height:480px;
     overflow:scroll;
     overflow-x:hidden; 

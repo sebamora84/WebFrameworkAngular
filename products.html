@@ -5,15 +5,13 @@ verifySession();
 ?>
 <!DOCTYPE html>
 <html>
-	<head>
-		
+	<head>		
 		<title>El Cafeto - Productos</title>
 		<link rel="stylesheet" href="./Styles/styles.css">
 		<link rel="stylesheet" href="./Styles/jquery-ui.min.css">
 		<script src="./Scripts/jquery-3.1.1.min.js"></script>
 		<script src="./Scripts/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
-		<script src="./Scripts/list.min.js"></script>
-		<script src="./Scripts/mindmup-editabletable2.js"></script>		
+		<script src="./Scripts/list.min.js"></script>	
 		<script src="./Scripts/products.js"></script>	
     </head>
 	<body>
@@ -51,8 +49,11 @@ verifySession();
 					</div>
 					<div id="productsDetail">
 					<input id="searchBox" class="search" placeholder="Buscar Producto (Ctrl+B)" />
-						<div id="productsDetailTable">
-							<table>
+						<div id="productsDetailContainer">
+							<table id="productsDetailTable" class="display">
+								<thead>
+								
+								</thead>
 								<tbody id="productList" class="list">
 									
 								</tbody>

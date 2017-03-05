@@ -56,28 +56,31 @@ $(function(){
 });
 
 function loadAllProducts(){
+	
 	$.post("Api/Consumption/GetAllConsumptionTypes.php",
 			function(data, status){
-		    $("#productList").empty();
+		    $("#productsDetailTable thead").empty();
 			var consumptionTypes = JSON.parse(data);
 			if (consumptionTypes.length == 0) { return; };			
-			$("#productList").append('<tr><th><label>Id</label></th><th><label>Description</label></th></tr>');
+			$("#productsDetailTable thead").append('<tr><th><label>Id</label></th><th><label>Descripcion</label></th></tr>');
 			
-			
+			//Create the header
 			$.each(consumptionTypes, function(index,consumptionType){				
-				$("#productList tr:has(th)").append(
-						'<td>'+
+				$("#productsDetailTable thead tr").append(
+						'<th>'+
 							'<label>'+consumptionType.description+'</label>'+
-						'</td>'
+						'</th>'
 					);
 			});
+			
 			//build productTable header	
-			$.post("Api/Product/GetAllProducts.php",
+			$.post("Api/Product/GetAllProductsWithPrices.php",
 					function(data, status){
+				$("#productsDetailTable tbody").empty();
 				var products = JSON.parse(data);
 				if (products.length == 0) { return; };
 				$.each(products, function(index, product){					
-					$("#productList").append(
+					$("#productsDetailTable tbody").append(
 							'<tr id="product'+product.id+'">'+
 								'<td class="col1">'+
 									'<label id="productId'+product.id+'">'+product.id+'</label>'+
@@ -85,38 +88,34 @@ function loadAllProducts(){
 								'<td>'+
 									'<label id="productDescription'+product.id+'" class="productDescription">'+product.description+'</label>'+
 								'</td>'+
-							'</tr>');
-					$.post("Api/Product/GetAPricesByProduct.php",
-				    		{ productId: product.id},
-							function(data, status){
-						var prices = JSON.parse(data);
-						if (prices.length == 0) { return; };
+							'</tr>');					
 						
-						$.each(consumptionTypes,function(index, consumptionType){
-							
-							price = null;
-							$.each(prices, function(index, currentPrice){ 
-								 if(currentPrice.consumption_type_id == consumptionType.id){
-									 price=currentPrice;
-								 } 
-							});
-							if(price==null){
-								$('#product'+product.id).append(
-										 '<td>'+
-											'<label class="productPrice"></label>'+
-										 '</td>'
-								 );
-							}
-							else{
-								$('#product'+product.id).append(
-										 '<td>'+
-											'<label id="productPrice'+price.id+'" class="productPrice">'+price.amount+'</label>'+
-										 '</td>'
-								 );
-							}
+					$.each(consumptionTypes,function(index, consumptionType){
+						prices=product.ownPrice;
+						price = null;
+						$.each(prices, function(index, currentPrice){ 
+							 if(currentPrice.consumption_type_id == consumptionType.id){
+								 price=currentPrice;
+							 } 
 						});
-				    });
+						if(price==null){
+							$('#product'+product.id).append(
+									 '<td>'+
+										'<label class="productPrice"></label>'+
+									 '</td>'
+							 );
+						}
+						else{
+							$('#product'+product.id).append(
+									 '<td>'+
+										'<label id="productPrice'+price.id+'" class="productPrice">'+price.amount+'</label>'+
+									 '</td>'
+							 );
+						}
+					});
+				   
 				});
+				
 				productsList = new List('productsDetail', {
 					valueNames: [ 'productDescription' ]
 				});
