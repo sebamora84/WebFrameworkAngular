@@ -399,6 +399,9 @@ tr:hover {
     border-bottom-color:#e6bd51;
     box-shadow:0 0 5px #ebca74;
 }
+#cashWrapper .separator2{
+	width: 360px;
+}
 
 #cashWrapper .fullCashWrapper{
 	width: 386px;
@@ -671,5 +674,13 @@ tr:hover {
 }
 #wrong_user {
     display:none;
+}
+/*SYSTEM*/
+
+#systemWrapper .middlecolumnwrap {
+    width: 800px;
+}
+#systemWrapper .rightcolumnwrap {
+    width: 400px;
 }
  
