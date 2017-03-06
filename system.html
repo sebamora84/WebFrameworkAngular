@@ -46,6 +46,7 @@ verifySession();
 			<div class="middlecolumnwrap">
 				<div class="middlecolumn">
 				<div id="productsDetail">
+				<h1>Configuración de Reportes</h1>
 						<div id="reportDetailContainer">
 							<table id="reportDetailTable">
 								<thead>
@@ -66,6 +67,21 @@ verifySession();
 			</div>			
 			<div class="rightcolumnwrap">
 				<div class="rightcolumn">
+					<div class="reportEditor">
+						<p><label for="reportId">Id</label> 
+						<p><input id="reportId" value="" disabled="disabled">		
+						<p><label for="reportDescription">Descripcion</label>
+						<p><input id="reportDescription" value="">
+						<p><label for="reportDescription">SQL</label>
+						<p><textarea id="reportSql" ></textarea>
+						<p><label for="reportParameters">Parametros</label>
+						<p><textarea id="reportParameters"></textarea>
+					</div>
+					<div class="reportEditorActions">
+						<button id="newReportButton">Nuevo</button>	
+						<button id="saveReportButton">Guardar</button>
+						<button id="deleteReportButton">Borrar</button>
+					</div>
 				</div>
 			</div>
 			<div class="footerwrap">

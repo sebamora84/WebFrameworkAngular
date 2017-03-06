@@ -1,6 +1,6 @@
 <?php
 require_once '../Database/rb.php';
-class ReportsManager 
+class ReportManager 
 {	
 	function __construct(){
 		require_once '../Database/dbsetup.php';
@@ -20,6 +20,7 @@ class ReportsManager
 		  $report = R::dispense( 'report' );
 		  $report->description = $description;
 		  $report->sql = $sql;
+		  $report->parameters = $parameters;
 		  $id = R::store( $report );
 		  return $id;
 	}
@@ -28,8 +29,14 @@ class ReportsManager
 		$report = self::getReport($reportId);
 		$report->description = $description;
 		$report->sql = $sql;
+		$report->parameters = $parameters;
 		$id = R::store( $report );
 		return $id;
+	}
+	
+	function deleteReport($reportId){
+		$report = self::getReport($reportId);
+		R::trash($report);
 	}
 }
 
