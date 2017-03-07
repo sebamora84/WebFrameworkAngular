@@ -70,7 +70,7 @@ function loadAllReports(){
 				    report = $(this).find('td label');
 				    reportId = report[0].innerHTML;
 				    reportDescription=report[1].innerHTML;
-				    reportSql=report[2].innerHTML;
+				    reportSql=report[2].innerHTML.split('&gt;').join('>').split('&lt;').join('<');
 				    reportParameters=report[3].innerHTML;
 				    $('#reportId').val(reportId);
 				    $('#reportDescription').val(reportDescription);

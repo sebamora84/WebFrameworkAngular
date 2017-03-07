@@ -42,9 +42,7 @@ class ReportManager
 	
 	function executeReport($reportId, $parametersArray){
 		$report = self::getReport($reportId);
-		R::debug(1);
 		$reportResult=R::getAll($report->sql, $parametersArray);
-		R::debug(0);
 		return $reportResult;
 		
 	}

@@ -18,8 +18,27 @@ $(function(){
 				{reportId:reportId, jsonParameters:jsonParameters },
 				function(data, status){
 					//TODO: show report
-					$('.middlecolumn').empty();
-					$('.middlecolumn').append(data);
+					$('#reportResultTable thead').empty();
+					$('#reportResultTable tbody').empty();
+					reportResult = JSON.parse(data);
+					if (reportResult.length == 0) { 
+						$('#reportResultTable thead').append('<tr><th><label>Sin Resultados</label></th></tr>');
+						return; 
+					};
+					firstItem=reportResult[0];
+					$('#reportResultTable thead').append('<tr></tr>');
+					for(key in firstItem) {
+						$('#reportResultTable thead tr').append('<th><label>'+key+'</label></th>');						
+					}
+					
+					
+					$.each(reportResult, function(index, reportItem){
+						$('#reportResultTable tbody').append('<tr id="row'+index+'"></tr>');
+						for(key in firstItem) {
+							$('#row'+index).append('<td><label>'+reportItem[key]+'</label></td>');
+						}
+					});
+					
 			
 		});
 	});
