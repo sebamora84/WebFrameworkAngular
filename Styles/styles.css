@@ -701,4 +701,12 @@ tr:hover {
 #systemWrapper .rightcolumnwrap {
     width: 400px;
 }
+/*Reports*/
+
+#reportsWraper .middlecolumnwrap {
+    width: 800px;
+}
+#reportsWraper .leftcolumnwrap {
+    width: 400px;
+}
  

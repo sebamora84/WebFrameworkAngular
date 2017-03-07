@@ -4,6 +4,7 @@ class ReportManager
 {	
 	function __construct(){
 		require_once '../Database/dbsetup.php';
+		
 	}
 	//Report		
 	function getAllReports(){				
@@ -37,6 +38,15 @@ class ReportManager
 	function deleteReport($reportId){
 		$report = self::getReport($reportId);
 		R::trash($report);
+	}
+	
+	function executeReport($reportId, $parametersArray){
+		$report = self::getReport($reportId);
+		R::debug(1);
+		$reportResult=R::getAll($report->sql, $parametersArray);
+		R::debug(0);
+		return $reportResult;
+		
 	}
 }
 
