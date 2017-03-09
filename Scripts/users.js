@@ -6,6 +6,7 @@ var userRoles;
 $(function() {
 		loadAllRoles();
 		loadAllUsers();
+		
 		$('#newUserButton').click(function(){
 			$('#userEditor input').val("");
 		});
@@ -72,17 +73,39 @@ function loadAllUsers(){
 							
 			userId = $(this).find('td label')[0].innerHTML;
 			    selectedUser = users[userId];
+			    loadUserRoles();
 		});
 	});
 }
 function loadAllRoles(){
+	$("#availableRolesContainer").empty();
 	$.post("Api/User/GetAllRoles.php",
 			function(data, status){
 				allRoles = JSON.parse(data);
 				if (allRoles.length == 0) { return; };
-				$.each(allRoles, function(index, role) {
-					//Create all the divs and set position
-					$( "#availableRolesContainer ul").append( '<li> <div id="role'+ role.id +'" class="role"> <div class="itemPartLeft">'+role.description+'</div> <div class="itemPartRight"><img id="addRole'+role.id+'" class="buttonAddRole" src="Images/Icons/add.png" alt="+" height="24"></div></div></li>' );						
+				$.each(allRoles, function(index, role) {					
+					availableRole = $("#availableRoleTemplate").clone();
+					$(availableRole).attr('id','role'+role.id);
+					$(availableRole).find(".roleDescription").text(role.description);
+					$("#availableRolesContainer").append(availableRole);	
+				});
+	});
+}
+function loadUserRoles(){
+	$("#assignedRolesContainer").empty();
+	if(selectedUser==null){
+		return;
+	}
+	$.post("Api/User/GetUserRoles.php",
+			{username:selectedUser.username},
+			function(data, status){
+				userRoles = JSON.parse(data);
+				if (userRoles.length == 0) { return; };
+				$.each(userRoles, function(index, role) {					
+					assignedRole = $("#assignedRoleTemplate").clone();
+					$(assignedRole).attr('id','role'+role.id);
+					$(assignedRole).find(".roleDescription").text(role.description);
+					$("#assignedRolesContainer").append(assignedRole);	
 				});
 	});
 }

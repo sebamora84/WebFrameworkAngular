@@ -60,6 +60,9 @@ class UserManager
 	}
 	
 	//Authorization
+	function getAllRoles(){
+		return  R::findAll( 'role');
+	}
 	
 	function createRole($description){
 		$role = R::dispense( 'role' );
