@@ -1,3 +1,4 @@
+var products;
 $(function(){
 	$(document).keydown(function(e) {
         if (e.keyCode == 66 && e.ctrlKey) {
@@ -77,7 +78,7 @@ function loadAllProducts(){
 			$.post("Api/Product/GetAllProductsWithPrices.php",
 					function(data, status){
 				$("#productsDetailTable tbody").empty();
-				var products = JSON.parse(data);
+				products = JSON.parse(data);
 				if (products.length == 0) { return; };
 				$.each(products, function(index, product){					
 					$("#productsDetailTable tbody").append(
@@ -121,6 +122,8 @@ function loadAllProducts(){
 				});
 				
 				$('tr').has('td').click(function(){
+					$('tr').removeClass('trSelected');
+					$(this).addClass('trSelected');
 					$('.productEditor input').val("");
 					
 				    product = $(this).find('td label');

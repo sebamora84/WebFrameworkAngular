@@ -11,7 +11,9 @@ function verifySession(){
 	}
 	session_start();
 	
-	$uri=explode("?",substr($_SERVER['REQUEST_URI'], 1))[0];
+	$uri=explode("?",substr($_SERVER['REQUEST_URI'], 1))[0];	
+
+	//Session not started
 	if(!isset($_SESSION["username"])){
 		header("Location:/login.html?uri=".$uri);
 		exit();
@@ -23,6 +25,11 @@ function verifySession(){
 	//The super user has access to all
 	if($_SESSION["username"]=="superuser"){
 		return;
+	}
+	//Must Reset Pwd
+	if($_SESSION["reset"]=="1" && $uri!="profile.html"){
+		header("Location:/profile.html?uri=".$uri."&m=reset");
+		exit();
 	}
 	//Check the authorization to the resource	
 	$resources = $_SESSION["resources"];

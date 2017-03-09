@@ -10,12 +10,6 @@ function menuButtons(){
 		$resources = $_SESSION["resources"];
 	}
 	foreach ($resources as &$resource){
-		if($resource["uri"]==$uri){
-			$buttonClass = 'class="currentButton"';
-		}
-		else if($resource["uri"]!="profile.html"){
-			$buttonClass='';
-		}
 		if ($resource["visible"]){
 			echo '<button '.getButtonClass($uri, "login.html").' onclick="window.location.href=\'./'.$resource["uri"].'\'">'.$resource["resource"].'</button>';
 		}

@@ -40,6 +40,25 @@ class UserManager
 		  return $id;
 	}
 	
+	function changePassword($username, $password, $mustReset){
+		$user = self::getUserByName($username);
+		$user->reset = $mustReset;
+		$user->xownAuthenticationList=array();
+		$id = R::store( $user );
+	
+		$auth = R::dispense( 'authentication' );
+		$auth->user=$user;
+		$auth->hash=password_hash($password , PASSWORD_DEFAULT);
+		R::store( $auth );
+	
+		return $id;
+	}
+	
+	function deleteUserByName($username){
+		$user = self::getUserByName($username);
+		R::trash( $user );
+	}
+	
 	//Authorization
 	
 	function createRole($description){
@@ -71,7 +90,7 @@ class UserManager
 		return $id;
 	}
 	function getUserAuthorizations($username){
-		$sql = 'SELECT role.description as role, resource.description as resource, resource.uri, resource.visible FROM user 
+		$sql = 'SELECT DISTINCT resource.description as resource, resource.uri, resource.visible, resource.order FROM user 
 				INNER JOIN role_user ON user.id=role_user.user_id 
 				INNER JOIN role ON role_user.role_id=role.id 
 				INNER JOIN resource_role ON role.id=resource_role.role_id 
@@ -82,7 +101,13 @@ class UserManager
 		return $userAuthorizations;
 	}
 	function getAllResources(){
-		return R::findAll('resource');
+		$sql = 'SELECT DISTINCT resource.description as resource, resource.uri, resource.visible, resource.order FROM user
+				INNER JOIN role_user ON user.id=role_user.user_id
+				INNER JOIN role ON role_user.role_id=role.id
+				INNER JOIN resource_role ON role.id=resource_role.role_id
+				INNER JOIN resource ON resource_role.resource_id=resource.id
+				ORDER BY resource.order';
+		return R::getAll($sql);
 	}
 }
 

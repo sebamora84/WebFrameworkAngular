@@ -21,10 +21,12 @@ if(	session_id()){
 
 $um = new UserManager();
 $authenticated = $um->isAuthenticated($username, $password);
+$user = $um->getUserByName($username);
 if($authenticated){
 	session_start();
-	$_SESSION["username"]=$username;
-	$_SESSION["resources"]= $um->getUserAuthorizations($username);
+	$_SESSION["username"]=$user->username;
+	$_SESSION["reset"]=$user->reset;
+	$_SESSION["resources"]= $um->getUserAuthorizations($user->username);
 	$_SESSION["allResources"]= $um->getAllResources();
 	echo "OK";
 	return;

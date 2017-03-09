@@ -89,7 +89,8 @@ function loadReportParameters(reportId){
 					'</div>'						
 					);
 			$('#'+inputId).datetimepicker({
-				startDate:'-1970/01/02'
+				startDate:'-1970/01/02',
+				format:'Y-m-d H:i:s'
 				});
 			$.datetimepicker.setLocale('es');
 		}

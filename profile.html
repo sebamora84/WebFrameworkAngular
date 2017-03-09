@@ -5,9 +5,7 @@ verifySession();
 ?>
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta http-equiv="refresh" content="0; url=./underConstruction.html">
-	
+	<head>	
 		<title>El Cafeto - Perfil</title>
 		<link rel="stylesheet" href="./Styles/styles.css">
 		<link rel="stylesheet" href="./Styles/jquery-ui.min.css">
@@ -15,6 +13,7 @@ verifySession();
 		<script src="./Scripts/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
 		<script src="./Scripts/list.min.js"></script>
 		<script src="./Scripts/mindmup-editabletable2.js"></script>
+		<script src="./Scripts/profile.js"></script>
     </head>
 	<body>
 		<div class="wrapper">
@@ -52,7 +51,39 @@ verifySession();
 			</div>	
 			<div class="middlecolumnwrap">
 				<div class="middlecolumn">
+				<div class="passwordEditor">
+						<p><label for="currentPassword">Password Actual</label> 
+						<p><input id="currentPassword" value="" type="password">	
+						<p><label for="newPassword">Password Nuevo</label> 
+						<p><input id="newPassword" value="" type="password">	
+						<p><label for="repeatPassword">Repetir Password</label> 
+						<p><input id="repeatPassword" value="" type="password">		
+						
+					</div>
+					<div class="passwordEditorActions">
+						<button id="savePasswordButton">Guardar</button>
+					</div>
+				<div id="pswd_info">
+						<h4>El password debe tener los siguientes requerimientos:</h4>
+						<ul>
+							<li id="letter" class="invalid">Al menos <strong>una letra</strong></li>
+							<li id="number" class="invalid">Al menos <strong>un numero</strong></li>
+							<li id="length" class="invalid">Al menos <strong>8 caracteres</strong></li>
+						</ul>
 				</div>
+					
+				<div id="pswd_match">
+						<ul>
+							<li id="match" class="invalid"><strong>El password debe coincidir</strong></li>
+						</ul>
+					</div>	
+				</div>	
+				<div id="pswd_incorrect">
+						<ul>
+							<li id="incorrect" class="invalid"><strong>Password incorrecto</strong></li>
+						</ul>
+					</div>	
+				</div>				
 			</div>			
 			<div class="rightcolumnwrap">
 				<div class="rightcolumn">
@@ -67,7 +98,7 @@ verifySession();
 				<div class="powered">
 					<label> Powered by <a href="http://www.linkedin.com/in/sebastian-mora-b1785131">SM</a></label>
 				</div>
-			</div>	
+			</div>
 		</div>	
 	</body>
 </html>

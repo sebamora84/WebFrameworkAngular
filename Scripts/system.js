@@ -34,16 +34,14 @@ $(function(){
 	
 	loadAllReports();
 });
-
+var reports;
 function loadAllReports(){
-	
-
 			
 			//build productTable header	
 			$.post("Api/Reports/GetAllReports.php",
 					function(data, status){
 				$("#reportDetailTable tbody").empty();
-				var reports = JSON.parse(data);
+				reports = JSON.parse(data);
 				if (reports.length == 0) { return; };
 				$.each(reports, function(index, report){					
 					$("#reportDetailTable tbody").append(
@@ -54,24 +52,19 @@ function loadAllReports(){
 								'<td>'+
 									'<label id="reportDescription'+report.id+'" >'+report.description+'</label>'+
 								'</td>'+
-								'<td>'+
-									'<label id="reportSql'+report.id+'" >'+report.sql+'</label>'+
-								'</td>'+
-								'<td>'+
-									'<label id="reportParameters'+report.id+'" >'+report.parameters+'</label>'+
-								'</td>'+
 							'</tr>');				   
 				});
 							
 				//Load the report Editor
 				$('tr').has('td').click(function(){
+					$('tr').removeClass('trSelected');
+					$(this).addClass('trSelected');
 					$('.reportEditor input').val("");
-					
-				    report = $(this).find('td label');
-				    reportId = report[0].innerHTML;
-				    reportDescription=report[1].innerHTML;
-				    reportSql=report[2].innerHTML.split('&gt;').join('>').split('&lt;').join('<');
-				    reportParameters=report[3].innerHTML;
+				    reportId = $(this).find('td label')[0].innerHTML;
+				    report = reports[reportId];
+				    reportDescription=report.description;
+				    reportSql=report.sql;
+				    reportParameters=report.parameters;
 				    $('#reportId').val(reportId);
 				    $('#reportDescription').val(reportDescription);
 				    $('#reportSql').val(reportSql);
