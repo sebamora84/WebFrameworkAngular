@@ -1,4 +1,3 @@
-
 $(function(){		
 	validateFields();
 	$( '#savePasswordButton' ).click(function( event ) {

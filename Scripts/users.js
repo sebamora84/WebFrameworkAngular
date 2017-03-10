@@ -17,7 +17,7 @@ $(function() {
 			if (username==""){
 				return;
 			}
-			$.post("Api/User/resetPassword.php",
+			$.post("Api/User/ResetPassword.php",
 					{username:username },
 					function(data, status){
 						loadAllUsers();
