@@ -43,6 +43,46 @@ verifySession();
 					?>
 				</div>
 			</div>
+					
+			<div class="middlecolumnwrap">
+				<div class="middlecolumn">
+					<div class="reportEditor">
+						<p><label for="reportId">Id</label> 
+						<p><input id="reportId" value="" disabled="disabled">		
+						<p><label for="reportDescription">Descripcion</label>
+						<p><input id="reportDescription" value="">
+						<p><label for="reportDescription">SQL</label>
+						<p><textarea id="reportSql" ></textarea>
+						<p><label for="reportParameters">Parametros</label>
+						<p><textarea id="reportParameters"></textarea>
+					</div>
+					<div class="reportEditorActions">
+						<button id="newReportButton">Nuevo</button>	
+						<button id="saveReportButton">Guardar</button>
+						<button id="deleteReportButton">Borrar</button>
+					</div>
+				</div>
+			</div>
+			<div class="leftcolumnwrap">
+				<div class="leftcolumn">
+				<div id="productsDetail">
+				<h1>Configuración de Mesas</h1>
+						<div id="reportDetailContainer">
+							<table id="reportDetailTable">
+								<thead>
+									<tr>
+										<th><label>Id</label></th>
+										<th><label>Descripción</label></th>
+									</tr>
+								</thead>
+								<tbody>
+									
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>	
 			<div class="leftcolumnwrap">
 				<div class="leftcolumn">
 				<div id="productsDetail">

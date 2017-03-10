@@ -63,7 +63,9 @@ class UserManager
 	function getAllRoles(){
 		return  R::findAll( 'role');
 	}
-	
+	function getRole($id){
+		return R::load('role', $id);
+	}
 	function createRole($description){
 		$role = R::dispense( 'role' );
 		$role->description = $description;
@@ -71,11 +73,24 @@ class UserManager
 		$id = R::store( $role );
 		return $id;
 	}
+	function deleteRole($roleId){
+		$role = R::load('role', $roleId);
+		R::trash($role);
+	}
 	function createUserRole($userId, $roleId){
 		$user = R::load('user', $userId);
-		$user->sharedRoleList[]=R::load('role', $roleId);
+		$user->sharedRoleList[]=R::load('role', $roleId);		
 		$id = R::store( $user );
 		return $id;
+	}
+	function deleteUserRole($userId, $roleId){
+		$user = R::load('user', $userId);
+		unset($user->sharedRoleList[$roleId]);
+		$id = R::store( $user );
+		return $id;
+	}
+	function getAllResources(){
+		return  R::findAll( 'resource');
 	}
 	function createResource($order, $uri, $description, $visible){
 		$resource = R::dispense( 'resource' );
@@ -92,6 +107,12 @@ class UserManager
 		$id = R::store( $role );
 		return $id;
 	}
+	function deleteRoleResource($roleId,$resourceId){
+		$role = R::load('role', $roleId);
+		unset($role->sharedResourceList[$resourceId]);
+		$id = R::store( $role );
+		return $id;
+	}
 	function getUserAuthorizations($username){
 		$sql = 'SELECT DISTINCT resource.description as resource, resource.uri, resource.visible, resource.order FROM user 
 				INNER JOIN role_user ON user.id=role_user.user_id 
@@ -103,7 +124,7 @@ class UserManager
 		$userAuthorizations = R::getAll($sql, [$username]);
 		return $userAuthorizations;
 	}
-	function getAllResources(){
+	function getAllAuthorizations(){
 		$sql = 'SELECT DISTINCT resource.description as resource, resource.uri, resource.visible, resource.order FROM user
 				INNER JOIN role_user ON user.id=role_user.user_id
 				INNER JOIN role ON role_user.role_id=role.id

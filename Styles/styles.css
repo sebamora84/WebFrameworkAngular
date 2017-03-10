@@ -594,7 +594,7 @@ tr:active {
     clear:left;
 }
 
-.availableRole,.assignedRole {
+.availableRole,.assignedRole, .availableResource,.assignedResource {
 	height:30px;
 	width: 230px;
     padding:1px;
@@ -606,10 +606,10 @@ tr:active {
     border:1px solid #ddd;
     opacity:0.8;
 }
-.assignedRole:hover,.availableRole:hover {
+.assignedRole:hover,.availableRole:hover,.availableResource:hover,.assignedResource:hover {
     opacity:1;
 }
-#availableRoleTemplate,#assignedRoleTemplate{
+#availableRoleTemplate,#assignedRoleTemplate,#availableResourceTemplate,#assignedResourceTemplate{
 	display:none;
 }
 

@@ -27,7 +27,7 @@ if($authenticated){
 	$_SESSION["username"]=$user->username;
 	$_SESSION["reset"]=$user->reset;
 	$_SESSION["resources"]= $um->getUserAuthorizations($user->username);
-	$_SESSION["allResources"]= $um->getAllResources();
+	$_SESSION["allResources"]= $um->getAllAuthorizations();
 	echo "OK";
 	return;
 }

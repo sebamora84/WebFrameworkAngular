@@ -45,31 +45,32 @@ verifySession();
 			</div>
 			<div class="leftcolumnwrap">
 				<div class="leftcolumn">
-						<div id="userContainer">
-							<table id="userTable">
-								<thead>
-									<tr>
-										<th><label>Id</label></th>
-										<th><label>Usuario</label></th>
-										<th><label>Reset</label></th>
-									</tr>
-								</thead>
-								<tbody>
-									
-								</tbody>
-							</table>
-						</div>
+					<div id="userEditor" class="separator">
 						<div>
-								<button id="resetUserButton">Reset</button>
-								<button id="deleteUserButton">Borrar</button>
+							<p><label for="userName">Nuevo usuario</label>
+							<p><input id="userName" value="">
+							<button id="saveUserButton">Generar</button>	
 						</div>
-						<div id="userEditor" class="separator">
-							<div>
-								<p><label for="userName">Nuevo usuario</label>
-								<p><input id="userName" value="">
-								<button id="saveUserButton">Generar</button>	
-							</div>
-						</div>
+					</div>
+					<div id="userContainer">
+						<table id="userTable">
+							<thead>
+								<tr>
+									<th><label>Id</label></th>
+									<th><label>Usuario</label></th>
+									<th><label>Reset</label></th>
+								</tr>
+							</thead>
+							<tbody>
+								
+							</tbody>
+						</table>
+					</div>
+					<div>
+							<button id="resetUserButton">Reset</button>
+							<button id="deleteUserButton">Borrar</button>
+					</div>
+						
 				</div>
 			</div>	
 			
@@ -85,6 +86,51 @@ verifySession();
 				<div class="rightcolumn">				
 					<label>Roles Disponibles</label>
 					<div id="availableRolesContainer">
+												
+					</div>
+				</div>
+			</div>
+			<div class="leftcolumnwrap">
+				<div class="leftcolumn">
+					<div id="roleEditor" class="separator">
+						<div>
+							<p><label for="roleDescription">Nuevo Rol</label>
+							<p><input id="roleDescription" value="">
+							<button id="saveRoleButton">Generar</button>	
+						</div>
+					</div>
+					<div id="roleContainer">
+						<table id="roleTable">
+							<thead>
+								<tr>
+									<th><label>Id</label></th>
+									<th><label>Descripcion</label></th>
+								</tr>
+							</thead>
+							<tbody>
+								
+							</tbody>
+						</table>
+					</div>
+					<div>
+							<button id="deleteRoleButton">Borrar</button>
+					</div>
+						
+				</div>
+			</div>	
+			
+			<div class="middlecolumnwrap">
+				<div class="middlecolumn">
+				<label>Recursos Asignados</label>
+					<div id="assignedResourcesContainer">
+						
+					</div>
+				</div>
+			</div>
+			<div class="rightcolumnwrap">
+				<div class="rightcolumn">				
+					<label>Recursos Disponibles</label>
+					<div id="availableResourcesContainer">
 												
 					</div>
 				</div>
@@ -114,6 +160,22 @@ verifySession();
 			</div> 
 			<div class="itemPartRight">
 				<img class="buttonRemoveRole" src="Images/Icons/remove.png" alt="+" height="24">
+			</div>
+		</div>
+		<div id="availableResourceTemplate" class="availableResource"> 
+			<div class="itemPartLeft">
+				<label class="resourceDescription">Someresource</label>
+			</div> 
+			<div class="itemPartRight">
+				<img class="buttonAddResource" src="Images/Icons/add.png" alt="+" height="24">
+			</div>
+		</div>	
+		<div id="assignedResourceTemplate" class="assignedResource"> 
+			<div class="itemPartLeft">
+				<label class="resourceDescription">Someresource</label>
+			</div> 
+			<div class="itemPartRight">
+				<img class="buttonRemoveResource" src="Images/Icons/remove.png" alt="+" height="24">
 			</div>
 		</div>
 	</body>
