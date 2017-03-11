@@ -4,7 +4,7 @@ include_once '../Models/UserManager.php';
 
 $um = new UserManager();
 $hall = $um->createResource(1,"hall.html","Salon",true);
-$credit = $um->createResource(2,"credit.html","C.Corriente",true);
+$credit = $um->createResource(2,"credit.html","Cuentas",true);
 $cash = $um->createResource(3,"cash.html","Caja",true);
 $products = $um->createResource(4,"products.html","Productos",true);
 $reports = $um->createResource(5,"reports.html","Reportes",true);
