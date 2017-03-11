@@ -5,6 +5,7 @@ $(function(){
         }
     });
 		
+	loadAllCredits();
 	$.post("Api/Consumption/GetAllConsumptionTypes.php",
 		function(data, status){
 			loadConsumptionTypes(data, status);
@@ -44,6 +45,18 @@ $(function(){
 				function(data, status){
 				table =$('.tableSelected');
 				selectTable(table);
+			});
+		});				
+	});
+	$('#consumptionCredit').click(function(event) {								
+		showConsumptionCreditSelector(function(){
+			consumptionId = $(".consumptionInfo").attr('id').replace('consumptionInfo','');	
+			creditId = $('#creditSelector').val();
+			$.post("Api/Consumption/CreditConsumption.php",
+				{ consumptionId: consumptionId, creditId: creditId },
+				function(data, status){
+					table =$('.tableSelected');
+					selectTable(table);
 			});
 		});				
 	});
@@ -93,6 +106,18 @@ function showConsumptionTypeSelector(confirmAction){
 		$( ".consumptionTypesWrap" ).hide();
 	});
 	$( ".consumptionTypesWrap" ).show();
+}
+function showConsumptionCreditSelector(confirmAction){
+	$("#consumptionCreditCancel").click(function(event){
+		$( ".consumptionCreditWrap" ).hide();
+	});
+	//Make consumption types selectable
+	$( "#consumptionCreditAccept").unbind( "click" );
+	$( "#consumptionCreditAccept" ).click(function(event) {
+		confirmAction();
+		$( ".consumptionCreditWrap" ).hide();
+	});
+	$( ".consumptionCreditWrap" ).show();
 }
 function addItemByProduct(product, table){
 	if(table.length==0){
@@ -303,3 +328,16 @@ function loadProducts(data, status){
 					addItemByProduct(product, table);									
 				});
 			}
+function loadAllCredits(){
+	$.post("Api/Consumption/GetAllCredits.php",
+			function(data, status){
+		$("#creditSelector").empty();
+		$('#creditSelector').append('<option value=""> Seleccione una cuenta ...</option>');
+		credits = JSON.parse(data);
+		if (credits.length == 0) { return; };
+		
+		$.each(credits, function(index, credit){					
+			$('#creditSelector').append('<option value='+credit.id+'>'+credit.description+'</option>');
+		});
+	});
+}

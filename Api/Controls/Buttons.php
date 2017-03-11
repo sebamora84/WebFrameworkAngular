@@ -1,5 +1,8 @@
 <?php
 function menuButtons(){
+	if(!isset($_SESSION["username"])){
+		return;
+	}
 	$uri=explode("?",substr($_SERVER['REQUEST_URI'], 1))[0];
 	//Draw the buttons accordingly with the authorization
 	$username = $_SESSION["username"];
@@ -37,6 +40,7 @@ function sessionButton(){
 	else{
 		$sessionAction="Iniciar Sesion";
 	}
+	$uri=explode("?",substr($_SERVER['REQUEST_URI'], 1))[0];
 	echo '<button   '.getButtonClass($uri, "login.html").' onclick="window.location.href=\'./login.html\'">'.$sessionAction.'</button>';
 }
 

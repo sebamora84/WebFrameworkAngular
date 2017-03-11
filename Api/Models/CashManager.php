@@ -39,16 +39,16 @@ class CashManager
 		$cash->finalCash = 0.00;
 		$cash->cashFlow = 0.00;
 		$cash->expenses = 0.00;
+		$cash->paidCredit = 0.00;
 		$cash->calculatedSale = 0.00;
 		$cash->registeredSale = 0.00;
 		$cash->cashExtraction = 0.00;
 		$cash->newInitialCash = 0.00;
+		$cash->status = "open";
 		$cash->open = date("Y-m-d H:i:s");
 		//Delete after creation
 		//$cash->lastModified = date("Y-m-d H:i:s");
-		//$cash->closed = date("Y-m-d H:i:s");
-		
-		$cash->status = "open";
+		//$cash->closed = date("Y-m-d H:i:s");		
 		$id = R::store( $cash );
 		return $id;
 	}
@@ -124,6 +124,13 @@ class CashManager
 		$cash->registeredSale = $registeredSale;
 		$cash->lastModified = date("Y-m-d H:i:s");
 		$id = R::store( $cash );		
+		return $cash;
+	}
+	function updatePaidCredit($cashId, $paidCredit){
+		$cash = self::getCash($cashId);
+		$cash->paidCredit = $paidCredit;
+		$cash->lastModified = date("Y-m-d H:i:s");
+		$id = R::store( $cash );
 		return $cash;
 	}
 	

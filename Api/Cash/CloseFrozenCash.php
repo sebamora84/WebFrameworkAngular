@@ -18,7 +18,11 @@ $cam = new CashManager();
 $frozenCash = $cam->getFrozenCash();
 
 $cm = new ConsumptionManager();
+$paidCredit = $cm->getPaidCreditTotalByDates($frozenCash->open, $frozenCash->closed);
 $registeredSale = $cm->getClosedConsumptionsTotalByDates($frozenCash->open, $frozenCash->closed);
+$registeredSale=floatval($registeredSale)+floatval($paidCredit);
+
+$cam->updatePaidCredit($frozenCash->id, $paidCredit);
 $cam->updateRegisteredSale($frozenCash->id, $registeredSale);
 $cam->saveCash($frozenCash->id, $initialCash, $finalCash, $cashExtraction);
 $cam->closeFrozenCash();

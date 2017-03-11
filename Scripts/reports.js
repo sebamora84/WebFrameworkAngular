@@ -17,7 +17,6 @@ $(function(){
 		$.post("Api/Reports/ExecuteReport.php",
 				{reportId:reportId, jsonParameters:jsonParameters },
 				function(data, status){
-					//TODO: show report
 					$('#reportResultTable thead').empty();
 					$('#reportResultTable tbody').empty();
 					reportResult = JSON.parse(data);

@@ -232,6 +232,7 @@ function loadCurrentCash(data){
 	$('#finalCash').val(parseMoney(cash.final_cash));
 	$('#cashFlow').val(parseMoney(cash.cash_flow));
 	$('#expenses').val(parseMoney(cash.expenses));
+	$('#paidCredit').val(parseMoney(cash.paid_credit));
 	$('#calculatedSale').val(parseMoney(cash.calculated_sale));
 	$('#registeredSale').val(parseMoney(cash.registered_sale));
 	$('#cashExtraction').val(parseMoney(cash.cash_extraction));
@@ -246,6 +247,7 @@ function cleanCurrentCash(){
 	$('#finalCash').val("0.00");
 	$('#cashFlow').val("0.00");
 	$('#expenses').val("0.00");
+	$('#paidCredit').val("0.00");
 	$('#calculatedSale').val("0.00");
 	$('#registeredSale').val("0.00");
 	$('#cashExtraction').val("0.00");

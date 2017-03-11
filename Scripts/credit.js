@@ -55,12 +55,18 @@ function loadCreditSheet(){
 	$.post("Api/Consumption/GetCreditSheet.php",
 			{creditId:creditId},
 			function(data, status){
-				creditItem = JSON.parse(data);
-				if (creditItem.length == 0) { return; };
+				creditItems = JSON.parse(data);
+				if (creditItems.length == 0) { return; };
+				$('#creditTable tbody').empty();
 				
-				
-				
-				
+				$.each(creditItems, function(index, item){
+					$('#creditTable tbody').append('<tr>'+
+							'<td><label>'+item.created+'</label></td>'+
+							'<td><label>'+item.type+'</label></td>'+
+							'<td><label>'+item.description+'</label></td>'+
+							'<td><label>'+item.amount+'</label></td>'+
+							'</tr>');
+				});
 		});
 }
 

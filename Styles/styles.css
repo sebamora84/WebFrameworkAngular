@@ -292,7 +292,31 @@ tr:active {
 .tableSelected{
   background-color: #daa520;
 }
-
+.consumptionCreditWrap {
+	display:none;
+	position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    z-index: 1; /* Sit on top */    
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+.consumptionCredit {
+	position: fixed;
+	left:40%;
+	top:30%;
+	margin: auto;
+	width:270px;	
+	height:100px;
+	padding:20px;
+    background: #FEFEFE;
+    border-radius: 10px;
+    border: 1px solid #eaeaea;
+    margin: 5px;
+}
 .consumptionTypesWrap {
 	display:none;
 	position: fixed; /* Stay in place */
@@ -675,6 +699,12 @@ tr:active {
 #reportsWraper .leftcolumnwrap {
     width: 400px;
 }
+
+#reportResultContainer{
+	overflow:scroll;
+    overflow-x:hidden; 
+}
+
 /*Profile*/
 
 #pswd_incorrect {
@@ -791,5 +821,9 @@ tr:active {
 }
 #creditWrapper .middlecolumnwrap {
     width: 800px;
+}
+#creditContainer{
+	overflow:scroll;
+    overflow-x:hidden; 
 }
  

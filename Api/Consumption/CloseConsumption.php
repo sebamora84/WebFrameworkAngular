@@ -11,6 +11,10 @@ $cm->closeConsumption($consumptionId);
 //Update cash
 $cam = new CashManager();
 $openCash = $cam->ensureOpenCash();
+$paidCredit = $cm->getPaidCreditTotalByDates($openCash->open, date("Y-m-d H:i:s"));
 $registeredSale = $cm->getClosedConsumptionsTotalByDates($openCash->open, date("Y-m-d H:i:s"));
+$registeredSale=floatval($registeredSale)+floatval($paidCredit);
+
+$cam->updatePaidCredit($openCash->id, $paidCredit);
 $cam->updateRegisteredSale($openCash->id, $registeredSale);
 ?>

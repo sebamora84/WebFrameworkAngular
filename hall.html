@@ -60,7 +60,8 @@ verifySession();
 						</div>
 						<ul></ul>
 						<div id="consumptionOpened" class="consumptionOption">
-							<button id="consumptionClose">Cerrar</button>
+							<button id="consumptionClose">Cerrar</button>							
+							<button id="consumptionCredit">A Cuenta ...</button>
 							<button id="consumptionChange">Cambiar ...</button>
 							<button id="consumptionCancel">Cancelar</button>
 						</div>
@@ -92,6 +93,16 @@ verifySession();
 			<div class="consumptionTypes" >
 				<div class="consumptionTypeOptions"></div>
 				<div class="consumptionTypeCancelWrap"><button id="consumptionTypesCancel"> Cancelar</button></div>
+			</div>
+		</div>
+		<div class="consumptionCreditWrap">
+			<div class="consumptionCredit" >
+				<label>Cuentas</label>
+				<p><select  id="creditSelector">
+					
+				</select>
+				<button id="consumptionCreditAccept">Aceptar</button>
+				<button id="consumptionCreditCancel">Cancelar</button>
 			</div>
 		</div>	
 	</body>	

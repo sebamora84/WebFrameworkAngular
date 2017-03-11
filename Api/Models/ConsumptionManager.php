@@ -37,6 +37,11 @@ class ConsumptionManager
 	function getClosedConsumptionsTotalByDates($startDate, $endDate){
 		$sql = 'SELECT SUM(consumption.total) as total FROM consumption
 				WHERE status="close" AND closed > ? AND closed <= ?';
+		return R::getCell($sql, [ $startDate, $endDate ]);
+	}
+	function getPaidCreditTotalByDates($startDate, $endDate){
+		$sql = 'SELECT SUM(credititem.amount) as total FROM credititem
+				WHERE type="Pago" AND created > ? AND created <= ?';
 		return R::getCell($sql, [ $startDate, $endDate ]) ;
 	}
 	function getClosedConsumptionsByDates($startDate, $endDate){
@@ -107,12 +112,21 @@ class ConsumptionManager
 	}
 	
 	function creditConsumption($consumptionId, $creditId){
-		$consumption = self::getConsumption($id);
+		$consumption = self::getConsumption($consumptionId);
 		$consumption->status="credit";
 		$consumption->credit=R::load('credit', $creditId);
 		$consumption->lastModified = date("Y-m-d H:i:s");
 		R::store( $consumption );
-		$consumption->fresh();
+		$descriptionPrefix= $consumption->tableDescription.' - '.$consumption->consumptionTypeDescription;
+		if($consumption->discount<>0){
+			self::createCreditItem($creditId, "Descuento",$descriptionPrefix ,$consumption->discount );
+		}
+		foreach ($consumption->ownItemList as &$item){
+			$description=$descriptionPrefix.' - '.$item->productDescription.' x'.$item->quantity;
+			$amount= floatval($item->subtotal) * (-1);
+			self::createCreditItem($creditId, "Consumo",$description ,$amount );
+		}
+		
 		return $consumption;
 	}
 	
@@ -183,17 +197,19 @@ class ConsumptionManager
 	function getAllCredits(){
 		return R::findAll( 'credit' );
 	}
-	function createCreditPayment($creditId, $description, $amount){
-		$payment = R::dispense( 'payment' );
-		$payment->credit = R::load('credit',$creditId);
-		$payment->description = $description;
-		$payment->amount = $amount;
-		$payment->created = date("Y-m-d H:i:s");
-		$id = R::store( $payment );
+	function createCreditItem($creditId, $type, $description, $amount){
+		$item = R::dispense( 'credititem' );
+		$item->credit = R::load('credit',$creditId);
+		$item->type = $type;
+		$item->description = $description;
+		$item->amount = $amount;
+		$item->created = date("Y-m-d H:i:s");
+		$id = R::store( $item );
 		return $id;
 	}
 	function getCreditSheet($creditId){
-		$sql='SELECT created, "Pago", description, amount FROM payment WHERE credit_id=:creditId';
+		$sql='SELECT "" as created, "Total" as type, "" as description, SUM(amount) as amount FROM credititem WHERE credit_id=:creditId
+UNION SELECT created, type, description, amount FROM credititem WHERE credit_id=:creditId';
 		return R::getAll($sql, [':creditId'=>$creditId]);
 	}
 }

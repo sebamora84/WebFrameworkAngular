@@ -23,8 +23,11 @@ if($endDate == null){
 	$endDate = date("Y-m-d H:i:s");
 }
 $cm = new ConsumptionManager();
-$registeredSale = $cm->getClosedConsumptionsTotalByDates($startDate, $endDate);
+$paidCredit = $cm->getPaidCreditTotalByDates($openCash->open, $endDate);
+$registeredSale = $cm->getClosedConsumptionsTotalByDates($openCash->open, $endDate);
+$registeredSale=floatval($registeredSale)+floatval($paidCredit);
 
+$cam->updatePaidCredit($openCash->id, $paidCredit);
 $cam->updateRegisteredSale($cash->id, $registeredSale);
 $cam->saveCash($cash->id, $initialCash, $finalCash, $cashExtraction);
 echo json_encode($cam->getCurrentCash());
