@@ -6,18 +6,17 @@ verifySession();
 <!DOCTYPE html>
 <html>
 	<head>
-		<meta http-equiv="refresh" content="0; url=./underConstruction.html">
-	
-		<title>El Cafeto - Cuenta</title>
+		<title>El Cafeto - Cuentas</title>
 		<link rel="stylesheet" href="./Styles/styles.css">
 		<link rel="stylesheet" href="./Styles/jquery-ui-1.12.1.custom/jquery-ui.min.css">
 		<script src="./Scripts/jquery-3.1.1.min.js"></script>
 		<script src="./Scripts/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
 		<script src="./Scripts/list.min.js"></script>
 		<script src="./Scripts/mindmup-editabletable2.js"></script>
+		<script src="./Scripts/credit.js"></script>
     </head>
 	<body>
-		<div class="wrapper">
+		<div id="creditWrapper" class="wrapper">
 			<div class="logoheaderwrap">
 				<div class="logoheader">
 					<div class="logo">
@@ -46,16 +45,45 @@ verifySession();
 			</div>
 			<div class="leftcolumnwrap">
 				<div class="leftcolumn">
-					
-					
+					<div id="creditEditor" class="separator">
+						<div>
+							<p><label for="creditDescription">Nueva Cuenta</label>
+							<p><input id="creditDescription" value="">
+							<button id="saveCreditButton">Generar</button>	
+						</div>
+					</div>
+					<div id="paymentEditor" class="separator">
+						<p><label for="paymentDescription">Cuenta</label>
+						<p><select  id="creditSelector">
+							<option> Seleccione una cuenta ...</option>
+						</select>
+						<div>
+							<p><label for="paymentDescription">Descripcion del pago</label>
+							<p><input id="paymentDescription" value="Pago">
+							<p><label for="paymentAmount">Monto</label>
+							<p><input id="paymentAmount" value="">
+							<button id="savePaymentButton">Agregar</button>	
+						</div>
+					</div>				
 				</div>
 			</div>	
 			<div class="middlecolumnwrap">
 				<div class="middlecolumn">
-				</div>
-			</div>			
-			<div class="rightcolumnwrap">
-				<div class="rightcolumn">
+				<div id="creditContainer">
+						<table id="creditTable">
+							<thead>
+								<tr>
+									<th><label>Fecha</label></th>
+									<th><label>Operación</label></th>
+									<th><label>Descripcion</label></th>
+									<th><label>Monto</label></th>
+								</tr>
+							</thead>
+							<tbody>
+								
+							</tbody>
+						</table>
+					</div>
 				</div>
 			</div>
 			<div class="footerwrap">

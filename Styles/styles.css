@@ -783,4 +783,13 @@ tr:active {
     line-height:24px;
     color:#3a7d34;
 }
+/* CREDITS */
+
+
+#creditWrapper .leftcolumnwrap {
+    width: 400px;
+}
+#creditWrapper .middlecolumnwrap {
+    width: 800px;
+}
  

@@ -13,7 +13,7 @@ $(function(){
 		}
 		currentPassword = $('#currentPassword').val();
 		newPassword = $('#newPassword').val();
-		$.post("Api/User/changePassword.php",
+		$.post("Api/User/ChangePassword.php",
 				{currentPassword:currentPassword, newPassword:newPassword },
 				function(data, status){
 					$('input').val("");

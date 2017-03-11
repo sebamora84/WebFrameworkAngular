@@ -31,7 +31,7 @@ class ConsumptionManager
 		return $consumptions;
 	}
 	function getConsumption($consumptionId){				
-		$consumption = R::load('consumption', $consumptionId);;
+		$consumption = R::load('consumption', $consumptionId);
 		return $consumption;
 	}	
 	function getClosedConsumptionsTotalByDates($startDate, $endDate){
@@ -106,22 +106,30 @@ class ConsumptionManager
 		return $consumption;
 	}
 	
+	function creditConsumption($consumptionId, $creditId){
+		$consumption = self::getConsumption($id);
+		$consumption->status="credit";
+		$consumption->credit=R::load('credit', $creditId);
+		$consumption->lastModified = date("Y-m-d H:i:s");
+		R::store( $consumption );
+		$consumption->fresh();
+		return $consumption;
+	}
+	
+	
 	//Item
 	function getItemsByConsumption($consumptionId){				
 		$consumptions = R::find( 'item', ' consumption_id = ? ORDER BY id', [ $consumptionId] );
 		return $consumptions;
 	}
-	
 	function getItemByProductId($consumptionId, $productId){
 		$item = R::findOne('item','consumption_id = ? AND product_id = ? ORDER BY id DESC', [$consumptionId, $productId]);;
 		return $item;
 	}
-	
 	function getItem($itemId){				
 		$item = R::load('item', $itemId);;
 		return $item;
 	}
-	
 	function createItem($consumptionId, $productId, $productDescription, $productUnitPrice){		
 		  $item = R::dispense( 'item' );
 		  $item->consumption = self::getConsumption($consumptionId);
@@ -133,7 +141,6 @@ class ConsumptionManager
 		  $id = R::store( $item );
 		  return $id;
 	}
-	
 	function increaseItemQuantity($itemId){
 		$item = self::getItem($itemId);
 		$item->quantity++;
@@ -143,7 +150,6 @@ class ConsumptionManager
 		self::updateConsumptionTotal($item->consumptionId);
 		return $item;
 	}
-	
 	function decreaseItemQuantity($itemId){
 		$item = self::getItem($itemId);
 		$item->quantity--;
@@ -165,6 +171,30 @@ class ConsumptionManager
 		self::updateConsumptionTotal($item->consumptionId);
 		return $item;
 	}
+	
+	//credit
+	function createCredit($description){
+		$credit = R::dispense( 'credit' );
+		$credit->description = $description;
+		$credit->created = date("Y-m-d H:i:s");
+		$id = R::store( $credit );
+		return $id;
+	}
+	function getAllCredits(){
+		return R::findAll( 'credit' );
+	}
+	function createCreditPayment($creditId, $description, $amount){
+		$payment = R::dispense( 'payment' );
+		$payment->credit = R::load('credit',$creditId);
+		$payment->description = $description;
+		$payment->amount = $amount;
+		$payment->created = date("Y-m-d H:i:s");
+		$id = R::store( $payment );
+		return $id;
+	}
+	function getCreditSheet($creditId){
+		$sql='SELECT created, "Pago", description, amount FROM payment WHERE credit_id=:creditId';
+		return R::getAll($sql, [':creditId'=>$creditId]);
+	}
 }
-
 ?>
