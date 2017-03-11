@@ -19,8 +19,6 @@ $administrador = $um->createRole("Administrador");
 $encargado = $um->createRole("Encargado");
 $usuario = $um->createRole("Usuario");
 
-$fer = $um->createUser("fernando",  "fernando17");
-$richard = $um->createUser("richard",  "richard17");
 
 $um->createRoleResource($administrador, $hall);
 $um->createRoleResource($administrador, $credit);
@@ -36,8 +34,4 @@ $um->createRoleResource($encargado, $cash);
 
 $um->createRoleResource($usuario, $profile);
 
-$um->createUserRole($fer, $administrador);
-$um->createUserRole($fer, $usuario);
-$um->createUserRole($richard, $encargado);
-$um->createUserRole($richard, $usuario);
 ?>
