@@ -32,7 +32,6 @@ class ProductManager
 	function createProduct($description){		
 		  $product = R::dispense( 'product' );
 		  $product->description = $description;
-		  $product->xownPriceList[]= array();
 		  $id = R::store( $product );
 		  return $id;
 	}
