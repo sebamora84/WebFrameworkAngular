@@ -701,6 +701,7 @@ tr:active {
 }
 
 #reportResultContainer{
+	 height:512px;
 	overflow:scroll;
     overflow-x:hidden; 
 }
@@ -823,6 +824,7 @@ tr:active {
     width: 800px;
 }
 #creditContainer{
+	 height:512px;
 	overflow:scroll;
     overflow-x:hidden; 
 }
