@@ -133,6 +133,14 @@ class CashManager
 		$id = R::store( $cash );
 		return $cash;
 	}
+	function updateInitialCash($cashId, $initialCash){
+		$cash = self::getCash($cashId);
+		$cash->initialCash = $initialCash;
+		$cash->initialRegisteredCash = $initialCash;
+		$cash->lastModified = date("Y-m-d H:i:s");
+		$id = R::store( $cash );
+		return $cash;
+	}
 	
 	//Expense
 	function getExpense($expenseId){

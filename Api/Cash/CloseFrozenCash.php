@@ -26,6 +26,15 @@ $cam->updatePaidCredit($frozenCash->id, $paidCredit);
 $cam->updateRegisteredSale($frozenCash->id, $registeredSale);
 $cam->saveCash($frozenCash->id, $initialCash, $finalCash, $cashExtraction);
 $cam->closeFrozenCash();
-echo json_encode($cam->getCurrentCash());
+$frozenCash->fresh();
+$currentCash = $cam->getCurrentCash();
+if($currentCash==null){
+	echo "no open cash";
+	return;
+}
+
+$cam->updateInitialCash($currentCash->id, $frozenCash->newInitialCash);
+$currentCash->fresh();
+echo json_encode($currentCash);
 return;
 ?>

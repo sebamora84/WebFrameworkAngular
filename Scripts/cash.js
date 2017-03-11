@@ -95,11 +95,14 @@ $(function(){
 		$.post("Api/Cash/CloseFrozenCash.php",
 				{ initialCash:initialCash, finalCash:finalCash,  cashExtraction:cashExtraction},
 				function(data, status){
-					loadCurrentCash(data);
-					$.post("Api/Cash/GetExpenses.php",
+					$.post("Api/Cash/GetCurrentCash.php",
 							function(data, status){
-							loadExpenses(data);
-						});
+								loadCurrentCash(data);
+								$.post("Api/Cash/GetExpenses.php",
+										function(data, status){
+										loadExpenses(data);
+									});
+						});					
 			});
 	});
 	$('#cancelExpensesButton').click(function(event){
@@ -194,8 +197,7 @@ function loadCurrentCash(data){
 			function(data, status){
 			loadConsumptions(data);
 		});
-	cash = JSON.parse(data);
-	if (data=="null") {
+	if (data=="null" || data=="") {
 		$('#cashStatus').html("Cerrada");
 		$('#openButtonCash').show();
 		$('#freezeButtonCash').hide();
@@ -205,7 +207,9 @@ function loadCurrentCash(data){
 		$('.cashInputValue').attr('disabled','disabled');
 		cleanCurrentCash();
 		return;
-	} 	
+	} 
+
+	cash = JSON.parse(data);
 	if(cash.status=="open"){
 		$('#cashStatus').html("Abierta");
 		$('#openButtonCash').hide();
@@ -224,7 +228,7 @@ function loadCurrentCash(data){
 		$('#saveExpensesButton').removeAttr('disabled');
 		$('.cashInputValue').removeAttr('disabled');
 	}		
-	
+
 	$('#initialDateTime').html(cash.open);
 	$('#finalDateTime').html(cash.closed);
 	$('#initialCash').val(parseMoney(cash.initial_cash));
