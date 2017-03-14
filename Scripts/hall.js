@@ -1,3 +1,4 @@
+var tables
 $(function(){
 	$(document).keydown(function(e) {
         if (e.keyCode == 66 && e.ctrlKey) {
@@ -6,6 +7,7 @@ $(function(){
     });
 		
 	loadAllCredits();
+	
 	$.post("Api/Consumption/GetAllConsumptionTypes.php",
 		function(data, status){
 			loadConsumptionTypes(data, status);
@@ -13,6 +15,7 @@ $(function(){
 	$.post("Api/Table/GetAllTables.php",
 		function(data, status){
 			loadTables(data, status);
+			loadOpenConsumptionTables();
 	});
 	
 	$.post("Api/Product/GetAllProducts.php",
@@ -143,9 +146,9 @@ function loadConsumptionTypes(data, status){
 	});
 }
 function loadTables(data, status){
-	var jsonData = JSON.parse(data);
-	if (jsonData.length == 0) { return; };
-	$.each(jsonData, function(index, element) {
+	tables = JSON.parse(data);
+	if (tables.length == 0) { return; };
+	$.each(tables, function(index, element) {
 		//Create all the divs and set position
 		table = element;
 		$( "#hall" ).append( '<div id="table'+ table.id +'" class="table"> '+table.description+' </div>' );	
@@ -205,6 +208,7 @@ function selectTable(table){
 	$(table).addClass("tableSelected");
 	tableId = $(table).attr('id').replace('table','');
 	loadConsumption(tableId);
+	loadOpenConsumptionTables();
 }
 function loadConsumption(tableId){
 $("#consumptionOpened").hide();
@@ -340,4 +344,17 @@ function loadAllCredits(){
 			$('#creditSelector').append('<option value='+credit.id+'>'+credit.description+'</option>');
 		});
 	});
+}
+function loadOpenConsumptionTables(){
+	$.post("Api/Consumption/GetAllOpenConsumptions.php",
+			function(data, status){
+		$(".tableOpen").removeClass('tableOpen');
+		var consumptions = JSON.parse(data);
+		if (consumptions.length == 0) { return; };
+		
+		$.each(consumptions, function(index, consumption){
+			var tableId = consumption.table_id;
+			$('#table'+tableId).addClass('tableOpen');
+		});
+	});	
 }

@@ -48,6 +48,10 @@ class ConsumptionManager
 		$consumptions = R::find( 'consumption', 'status="close" AND closed >= ? AND closed <= ? ORDER BY id DESC', [ $startDate, $endDate ] );
 		return $consumptions;
 	}
+	function getAllOpenConsumptions(){
+		$consumptions = R::find( 'consumption', 'status="open"');
+		return $consumptions;
+	}
 	function createConsumption($tableId, $tableDescription, $consumptionTypeId, $consumptionTypeDescription){		
 		  $consumption = R::dispense( 'consumption' );
 		  $consumption->tableId = $tableId;
