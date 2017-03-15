@@ -48,7 +48,9 @@ verifySession();
 				<div class="leftcolumn">
 					<div id="products" class="productsList">
 						<input id="searchBox" class="search" placeholder="Buscar Producto (Ctrl+B)" />
-						<ul class="list"></ul>
+						<div id="productContainer" class="list">
+						
+						</div>
 					</div>
 				</div>
 			</div>
@@ -110,9 +112,30 @@ verifySession();
 			<div><label class="total"></label></div>
 		</div>
 		<div id="consumptionItemTemplate" class="item">
-			<div><label class="tableName">Seleccione una mesa</label></div>
-			<div><label class="type"></label></div>
-			<div><label class="total"></label></div>
+			<div class="itemDescription"><label class="description "></label></div>
+			<div class="itemPrice"><label class="subtotal">$0.00</label></div>
+			<div  class="itemActions">
+				<img class="itemButtonDelete" src="Images/Icons/remove.png" alt="-" height="16">
+				<img class="itemButtonAdd" src="Images/Icons/add.png" alt="+" height="16">
+			</div>
+		</div>
+		<div id="consumptionFooterTemplate">
+			<div class="item itemSubtotal">
+				<div class="itemDescription"><label class="description ">Subtotal</label></div>
+				<div class="itemPrice"><label class="subtotal">$0.00</label></div>
+			</div>
+			<div class="item itemDiscount">
+				<div class="itemDescription"><label class="description ">Descuento</label></div>
+				<div class="itemPrice"><input class="discount"  value="0.00"></div>
+			</div>
+			<div class="item itemTotal">
+				<div class="itemDescription"><label class="description ">Subtotal</label></div>
+				<div class="itemPrice"><label class="total">$0.00</label></div>
+			</div>
+		</div>
+		<div id="productTemplate" class="product">
+			<div class="productDescription"><label class="description "></label></div>
+			<div class="productActions"><img class="productButtonAdd" src="Images/Icons/add.png" alt="+" height="24"></div>
 		</div>
 	</body>	
 </html>

@@ -22,6 +22,13 @@ $(function(){
 					$(location).attr('href',"./"+redirect);
 			});
 	});
+	
+	$('input').keyup(function(e){
+	    if(e.keyCode == 13)
+	    {
+	        $('#btnStartSession').trigger("click");
+	    }
+	})
 });
 
 function GetURLParameter(urlParameter){

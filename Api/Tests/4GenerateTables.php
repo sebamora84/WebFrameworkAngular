@@ -75,27 +75,27 @@ $table = $ctm->getTable($tableId);
 echo json_encode($table);
 echo '<p>';
 
-$tableId = $ctm->createTable("Pedido 1", 1, 100 ,100 ,50 ,50);
+$tableId = $ctm->createTable("Pedido 1", 2, 100 ,100 ,50 ,50);
 $table = $ctm->getTable($tableId);
 echo json_encode($table);
 echo '<p>';
 
-$tableId = $ctm->createTable("Pedido 2", 1, 100 ,100 ,50 ,50);
+$tableId = $ctm->createTable("Pedido 2", 2, 100 ,100 ,50 ,50);
 $table = $ctm->getTable($tableId);
 echo json_encode($table);
 echo '<p>';
 
-$tableId = $ctm->createTable("Pedido 3", 1, 100 ,100 ,50 ,50);
+$tableId = $ctm->createTable("Pedido 3", 2, 100 ,100 ,50 ,50);
 $table = $ctm->getTable($tableId);
 echo json_encode($table);
 echo '<p>';
 
-$tableId = $ctm->createTable("Pedido 4", 1, 100 ,100 ,50 ,50);
+$tableId = $ctm->createTable("Pedido 4", 2, 100 ,100 ,50 ,50);
 $table = $ctm->getTable($tableId);
 echo json_encode($table);
 echo '<p>';
 
-$tableId = $ctm->createTable("Pedido 5", 1, 100 ,100 ,50 ,50);
+$tableId = $ctm->createTable("Pedido 5", 2, 100 ,100 ,50 ,50);
 $table = $ctm->getTable($tableId);
 echo json_encode($table);
 echo '<p>';

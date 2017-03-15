@@ -22,7 +22,7 @@ class ConsumptionManager
 	}	
 	
 	//Consumption
-	function getOpenConsumption($tableId){				
+	function getOpenConsumptionByTable($tableId){				
 		$consumption = R::findOne('consumption','table_id = ? AND status = "open" ORDER BY id DESC', [$tableId]);
 		return $consumption;
 	}	

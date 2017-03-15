@@ -271,12 +271,6 @@ tr:active {
 	text-align: left; 
 }
 
-#consumptionDiscount{	
-	margin:0px;
-    padding:2px;
-	width:45px;
-}
-
 .table{
 	background-color: #3498db;
 	color: white;
@@ -419,19 +413,37 @@ tr:active {
 
 .itemDescription {
 	float:left;
-	widht:100px;
+	width:125px;
 	padding:1px;
 	margin:1px;
 }
-.itemPrice {
+.itemPrice{
 	float:left;	
-	widht:100px;
+	width:55px;
 	padding:1px;
 	margin:1px;
 }
-.itemAction {
+.itemActions {
 	float:left;	
-	widht:100px;
+	width:38px;
+	padding:1px;
+	margin:1px;
+}
+.discount{	
+	margin:0px;
+    padding:2px;
+	width:45px;
+}
+
+.productDescription {
+	float:left;
+	width:185px;
+	padding:1px;
+	margin:1px;
+}
+.productActions {
+	float:left;	
+	width:30px;
 	padding:1px;
 	margin:1px;
 }
@@ -453,6 +465,13 @@ tr:active {
 #consumptionItemTemplate {
     display:none;
 }
+#consumptionFooterTemplate {
+    display:none;
+}
+#productTemplate {
+    display:none;
+}
+
 /*Cash styles */
 
 #cashWrapper .middlecolumnwrap {
