@@ -386,7 +386,7 @@ tr:active {
     opacity:1;
 }
 
-.consumptionInfo{
+.consumptionHeader{
 	padding:10px;
 	margin:10px;
     background:#fefefe;
@@ -416,13 +416,22 @@ tr:active {
 	background:#55cc44;
 	font-weight: bold;
 }
-.itemPartLeft {
+
+.itemDescription {
 	float:left;
+	widht:100px;
 	padding:1px;
 	margin:1px;
 }
-.itemPartRight {
-	float:right;
+.itemPrice {
+	float:left;	
+	widht:100px;
+	padding:1px;
+	margin:1px;
+}
+.itemAction {
+	float:left;	
+	widht:100px;
 	padding:1px;
 	margin:1px;
 }
@@ -438,6 +447,12 @@ tr:active {
     display:none;
 }
 
+#consumptionHeaderTemplate {
+    display:none;
+}
+#consumptionItemTemplate {
+    display:none;
+}
 /*Cash styles */
 
 #cashWrapper .middlecolumnwrap {
