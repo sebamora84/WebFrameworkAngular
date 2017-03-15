@@ -412,13 +412,13 @@ tr:active {
 }
 .itemQuantity {
 	float:left;
-	width:12px;
+	width:14px;
 	padding:1px;
 	margin:1px;
 }
 .itemDescription {
 	float:left;
-	width:116px;
+	width:114px;
 	padding:1px;
 	margin:1px;
 }
