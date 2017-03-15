@@ -402,9 +402,11 @@ tr:active {
 }
 .itemSubtotal{
 	background:#B6EAB6;
+	height:32px;
 }
 .itemDiscount{
-	background:#FFE4C4;
+	background:#FFE4C4;	
+	height:32px;
 }
 .itemTotal{
 	background:#55cc44;
