@@ -249,7 +249,8 @@ function loadConsumption(){
 				var consumptionItem = $('#consumptionItemTemplate').clone();
 				$(consumptionItem).attr('id', 'consumptionItem'+item.id);
 				$("#consumptionInfo").append(consumptionItem);
-				$(consumptionItem).find('.description').text(item.quantity+' '+item.product_description);
+				$(consumptionItem).find('.quantity').text(item.quantity);
+				$(consumptionItem).find('.description').text(item.product_description);
 				$(consumptionItem).find('.subtotal').text('$'+parseMoney(item.subtotal));
 			});
 			//load consumption footer

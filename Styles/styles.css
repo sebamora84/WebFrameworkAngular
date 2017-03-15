@@ -267,7 +267,7 @@ tr:active {
 }
 #searchBox{
 	margin: 10px;
-    width: 200px;
+    width: 180px;
 	text-align: left; 
 }
 
@@ -410,22 +410,27 @@ tr:active {
 	background:#55cc44;
 	font-weight: bold;
 }
-
+.itemQuantity {
+	float:left;
+	width:10px;
+	padding:1px;
+	margin:1px;
+}
 .itemDescription {
 	float:left;
-	width:125px;
+	width:118px;
 	padding:1px;
 	margin:1px;
 }
 .itemPrice{
 	float:left;	
-	width:55px;
+	width:50px;
 	padding:1px;
 	margin:1px;
 }
 .itemActions {
 	float:left;	
-	width:38px;
+	width:36px;
 	padding:1px;
 	margin:1px;
 }
