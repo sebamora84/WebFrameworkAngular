@@ -392,7 +392,7 @@ tr:active {
 .item {
     padding:1px;
 	margin:0 5px;
-	height:40px;
+	height:38px;
     background:#daa520;
     font-size:.875em;	
     border-radius:5px;
@@ -409,6 +409,7 @@ tr:active {
 .itemTotal{
 	background:#55cc44;
 	font-weight: bold;
+	font-size:1em;
 }
 .itemQuantity {
 	float:left;
