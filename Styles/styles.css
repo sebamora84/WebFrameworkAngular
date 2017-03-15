@@ -434,16 +434,21 @@ tr:active {
     padding:2px;
 	width:45px;
 }
-
+.productId {
+	float:left;
+	width:20px;
+	padding:1px;
+	margin:1px;
+}
 .productDescription {
 	float:left;
-	width:185px;
+	width:165px;
 	padding:1px;
 	margin:1px;
 }
 .productActions {
 	float:left;	
-	width:30px;
+	width:28px;
 	padding:1px;
 	margin:1px;
 }

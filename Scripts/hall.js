@@ -17,104 +17,75 @@ $(function(){
 	
 	$('#consumptionWrap').droppable({
         drop: function( event, ui ) {
-			product = ui.draggable[0];
-			table =$('.tableSelected');
-			addItemByProduct(product, table);
+			productId = $(ui.draggable).closest('.product').attr('id').replace('product','');
+			addItemByProduct(productId);					
         }
 	});
 	
-	$('#consumptionClose').click(function(event) {
-		consumptionId = $(".consumptionInfo").attr('id').replace('consumptionInfo','');					
+	$('#consumptionClose').click(function(event) {		
 		$.post("Api/Consumption/CloseConsumption.php",
-		    { consumptionId: consumptionId},
+		    { consumptionId: currentConsumption.id},
 			function(data, status){
-			table =$('.tableSelected');
-			selectTable(table);
+		    loadConsumption();
 		});					
 	});
 	$('#consumptionChange').click(function(event) {								
 		showConsumptionTypeSelector(function(){
-			consumptionId = $(".consumptionInfo").attr('id').replace('consumptionInfo','');	
 			consumptionTypeId = $('.consumptionTypeSelected').attr('id').replace('consumptionType','');
 			$.post("Api/Consumption/ChangeConsumptionType.php",
-				{ consumptionId: consumptionId, consumptionTypeId: consumptionTypeId },
+				{ consumptionId: currentConsumption.id, consumptionTypeId: consumptionTypeId },
 				function(data, status){
-				table =$('.tableSelected');
-				selectTable(table);
+				loadConsumption();
 			});
 		});				
 	});
 	$('#consumptionCredit').click(function(event) {								
 		showConsumptionCreditSelector(function(){
-			consumptionId = $(".consumptionInfo").attr('id').replace('consumptionInfo','');	
 			creditId = $('#creditSelector').val();
 			$.post("Api/Consumption/CreditConsumption.php",
-				{ consumptionId: consumptionId, creditId: creditId },
+				{ consumptionId: currentConsumption.id, creditId: creditId },
 				function(data, status){
-					table =$('.tableSelected');
-					selectTable(table);
+				    loadConsumption();
 			});
 		});				
 	});
 	$('#consumptionCancel').click(function(event) {
-		consumptionId = $(".consumptionInfo").attr('id').replace('consumptionInfo','');					
+		consumptionId = currentConsumption.id;					
 		$.post("Api/Consumption/CancelConsumption.php",
 		    { consumptionId: consumptionId},
 			function(data, status){
-			table =$('.tableSelected');
-			selectTable(table);
+			    loadConsumption();
 		});
 	});
 	$('#consumptionOpen').click(function(event) {
-		tableId = $('.tableSelected').attr('id').replace('table','');
 		$.post("Api/Consumption/OpenConsumption.php",
-		    { tableId: tableId},
+		    { tableId: selectedTable.id},
 			function(data, status){
-			table =$('.tableSelected');
-			selectTable(table);
+			    loadConsumption();
 		});
 	});
 	$('#consumptionOpenAs').click(function(event) {
 		showConsumptionTypeSelector(function(){
-			tableId = $('.tableSelected').attr('id').replace('table','');
 			consumptionTypeId = $('.consumptionTypeSelected').attr('id').replace('consumptionType','');
 			$.post("Api/Consumption/OpenConsumption.php",
-				{ tableId: tableId, consumptionTypeId: consumptionTypeId },
+				{ tableId: selectedTable.id, consumptionTypeId: consumptionTypeId },
 				function(data, status){
-				table =$('.tableSelected');
-				selectTable(table);
+				    loadConsumption();
 			});
 		});
-	});				
+	});
+	$('#searchBox').keyup(function(e){
+	    if(e.keyCode == 13)
+	    {
+	       var firstProduct = $('#productContainer .product:first-child');
+	       if(firstProduct.length==0){
+	    	   return;
+	       }
+	       var productId=$(firstProduct).attr('id').replace('product','');
+	       addItemByProduct(productId);
+	    }
+	});
 });
-
-function showConsumptionTypeSelector(confirmAction){
-	$("#consumptionTypesCancel").click(function(event){
-		$( ".consumptionTypesWrap" ).hide();
-	});
-	//Make consumption types selectable
-	$( ".consumptionType").unbind( "click" );
-	$( ".consumptionType" ).click(function(event) {
-		consumptionType = $(this).closest('.consumptionType');
-		$(".consumptionType").removeClass("consumptionTypeSelected");
-		$(consumptionType).addClass("consumptionTypeSelected");
-		confirmAction();
-		$( ".consumptionTypesWrap" ).hide();
-	});
-	$( ".consumptionTypesWrap" ).show();
-}
-function showConsumptionCreditSelector(confirmAction){
-	$("#consumptionCreditCancel").click(function(event){
-		$( ".consumptionCreditWrap" ).hide();
-	});
-	//Make consumption types selectable
-	$( "#consumptionCreditAccept").unbind( "click" );
-	$( "#consumptionCreditAccept" ).click(function(event) {
-		confirmAction();
-		$( ".consumptionCreditWrap" ).hide();
-	});
-	$( ".consumptionCreditWrap" ).show();
-}
 
 function loadAllCredits(){
 	$.post("Api/Consumption/GetAllCredits.php",
@@ -192,9 +163,11 @@ function loadAllTables(){
 			  }
 		}).droppable({
 	        drop: function( event, ui ) {
-				product = ui.draggable[0];
-				table = $(this).closest('.table');
-				addItemByProduct(product, table);
+	        	tableId = $(this).closest('.table').attr('id').replace('table','');
+				selectTable(tableId);
+				
+				productId = $(ui.draggable).closest('.product').attr('id').replace('product','');
+				addItemByProduct(productId);		
 	        }
 		});
 		//Make cafe tables selectable
@@ -206,7 +179,6 @@ function loadAllTables(){
 		loadConsumption();
 	});
 }
-
 function loadAllProducts(){
 	$('#productContainer').empty();
 	$.post("Api/Product/GetAllProducts.php",
@@ -218,6 +190,7 @@ function loadAllProducts(){
 			var productItem = $('#productTemplate').clone();
 			$(productItem).attr('id', 'product'+product.id);
 			$("#productContainer").append(productItem);
+			$(productItem).find('.identification').text(product.id);
 			$(productItem).find('.description').text(product.description);	
 		});
 
@@ -227,7 +200,7 @@ function loadAllProducts(){
 		});
 		
 		productsList = new List('products', {
-			valueNames: [ 'product' ]
+			valueNames: [ 'identification','description' ]
 		});
 		
 		$( ".product" ).draggable({ 
@@ -240,7 +213,6 @@ function loadAllProducts(){
 	});
 				
 }
-
 function loadConsumption(){
 	loadOpenConsumptionTables();
 	
@@ -357,6 +329,33 @@ function selectTable(tableId){
 	}
 	$('#table'+selectedTable.id).addClass("tableSelected");
 	loadConsumption();
+}
+function showConsumptionTypeSelector(confirmAction){
+	$("#consumptionTypesCancel").click(function(event){
+		$( ".consumptionTypesWrap" ).hide();
+	});
+	//Make consumption types selectable
+	$( ".consumptionType").unbind( "click" );
+	$( ".consumptionType" ).click(function(event) {
+		consumptionType = $(this).closest('.consumptionType');
+		$(".consumptionType").removeClass("consumptionTypeSelected");
+		$(consumptionType).addClass("consumptionTypeSelected");
+		confirmAction();
+		$( ".consumptionTypesWrap" ).hide();
+	});
+	$( ".consumptionTypesWrap" ).show();
+}
+function showConsumptionCreditSelector(confirmAction){
+	$("#consumptionCreditCancel").click(function(event){
+		$( ".consumptionCreditWrap" ).hide();
+	});
+	//Make consumption types selectable
+	$( "#consumptionCreditAccept").unbind( "click" );
+	$( "#consumptionCreditAccept" ).click(function(event) {
+		confirmAction();
+		$( ".consumptionCreditWrap" ).hide();
+	});
+	$( ".consumptionCreditWrap" ).show();
 }
 function parseMoney(value){
 	return parseFloat(Math.round(value * 100) / 100).toFixed(2);
