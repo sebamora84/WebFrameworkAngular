@@ -668,7 +668,18 @@ tr:active {
     margin: 0 auto;
     clear:left;
 }
-
+.roleResourceDescription {
+	float:left;
+	width:190px;
+	padding:1px;
+	margin:1px;
+}
+.roleResourceActions {
+	float:left;	
+	width: 30px;
+	padding:1px;
+	margin:1px;
+}
 .availableRole,.assignedRole, .availableResource,.assignedResource {
 	height:30px;
 	width: 230px;
