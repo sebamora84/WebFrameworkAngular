@@ -36,14 +36,14 @@ class CashManager
 		$cash = R::dispense( 'cash' );
 		$cash->initialCash = $initialCash;
 		$cash->initialRegisteredCash = $initialCash;
-		$cash->finalCash = 0.00;
+		$cash->finalCash = $initialCash;
 		$cash->cashFlow = 0.00;
 		$cash->expenses = 0.00;
 		$cash->paidCredit = 0.00;
 		$cash->calculatedSale = 0.00;
 		$cash->registeredSale = 0.00;
 		$cash->cashExtraction = 0.00;
-		$cash->newInitialCash = 0.00;
+		$cash->newInitialCash = $initialCash;
 		$cash->status = "open";
 		$cash->open = date("Y-m-d H:i:s");
 		//Delete after creation
@@ -137,6 +137,8 @@ class CashManager
 		$cash = self::getCash($cashId);
 		$cash->initialCash = $initialCash;
 		$cash->initialRegisteredCash = $initialCash;
+		$cash->finalCash = $initialCash;
+		$cash->newInitialCash = $initialCash;		
 		$cash->lastModified = date("Y-m-d H:i:s");
 		$id = R::store( $cash );
 		return $cash;
