@@ -353,6 +353,10 @@ function showConsumptionCreditSelector(confirmAction){
 	//Make consumption types selectable
 	$( "#consumptionCreditAccept").unbind( "click" );
 	$( "#consumptionCreditAccept" ).click(function(event) {
+		creditId = $('#creditSelector').val();
+		if(creditId==""){
+			return;
+		}
 		confirmAction();
 		$( ".consumptionCreditWrap" ).hide();
 	});

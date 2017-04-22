@@ -7,12 +7,7 @@ $cash = $cam->getCurrentCash();
 if($cash==null){
 	return;
 }
-$startDate = $cash->open;
-$endDate = $cash->closed;
-if($endDate == null){
-	$endDate = date("Y-m-d H:i:s");
-}
 $cm = new ConsumptionManager();
-$consumptions = $cm->getClosedConsumptionsByDates($startDate, $endDate);
+$consumptions = $cm->getClosedConsumptionsByCash($cash->id);
 echo json_encode($consumptions);
 ?>

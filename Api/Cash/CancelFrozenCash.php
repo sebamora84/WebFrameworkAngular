@@ -5,17 +5,31 @@ include_once '../Models/ConsumptionManager.php';
 $cam = new CashManager();
 $cm = new ConsumptionManager();
 
+//Move all consumptions from open cash to frozen cash
+$openCash = $cam->getOpenCash();
+if($openCash != null){
+	$consumptions = $openCash->ownConsumptionList;	
+	if (sizeof($consumptions)>0){
+		$frozenCash = $cam->getFrozenCash();
+		foreach ($consumptions as &$consumption){
+			$cm->updateConsumptionCash($consumption->id, $frozenCash->id);
+		}
+	}
+	$items = $openCash->ownCredititemList;
+	if (sizeof($items)>0){
+		$frozenCash = $cam->getFrozenCash();
+		foreach ($items as &$item){
+			$cm->updateCreditItemCash($item->id, $frozenCash->id);
+		}
+	}
+}
+//Delete open cash and reopen frozen cash
 $cam->cancelFrozenCash();
 
+//Update new open cash values
 $openCash = $cam->ensureOpenCash();
-$startDate = $openCash->open;
-$endDate = $openCash->closed;
-if($endDate == null){
-	$endDate = date("Y-m-d H:i:s");
-}
-
-$paidCredit = $cm->getPaidCreditTotalByDates($startDate, $endDate);
-$registeredSale = $cm->getClosedConsumptionsTotalByDates($startDate, $endDate);
+$paidCredit = $cm->getPaidCreditTotalByCash($openCash->id);
+$registeredSale = $cm->getClosedConsumptionsTotalByCash($openCash->id);
 $registeredSale=floatval($registeredSale)+floatval($paidCredit);
 
 $cam->updatePaidCredit($openCash->id, $paidCredit);

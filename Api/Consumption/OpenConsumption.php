@@ -16,9 +16,9 @@ else {
 }
 //Ensure threre is an opened cash
 $cam = new CashManager();
-$cam->ensureOpenCash();
+$cash=$cam->ensureOpenCash();
 
 $consumptionType = $cm->getConsumptionType($consumptionTypeId);
-$consumptionId = $cm->createConsumption($table->id, $table->description, $consumptionType->id, $consumptionType->description);
+$consumptionId = $cm->createConsumption($cash->id, $table->id, $table->description, $consumptionType->id, $consumptionType->description);
 
 ?>

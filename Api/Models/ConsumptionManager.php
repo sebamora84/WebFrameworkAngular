@@ -19,41 +19,42 @@ class ConsumptionManager
 		  $consumptionType->description = $description;
 		  $id = R::store( $consumptionType );
 		  return $id;
-	}	
+	}
 	
 	//Consumption
 	function getOpenConsumptionByTable($tableId){				
 		$consumption = R::findOne('consumption','table_id = ? AND status = "open" ORDER BY id DESC', [$tableId]);
 		return $consumption;
-	}	
-	function getOpenConsumptions(){
-		$consumptions = R::find('consumption','status = "open" ORDER BY id DESC');
+	}
+
+	function getAllOpenConsumptions(){
+		$consumptions = R::find( 'consumption', 'status="open" ORDER BY id DESC');
 		return $consumptions;
 	}
+		
 	function getConsumption($consumptionId){				
 		$consumption = R::load('consumption', $consumptionId);
 		return $consumption;
 	}	
-	function getClosedConsumptionsTotalByDates($startDate, $endDate){
+	function getClosedConsumptionsTotalByCash($cashId){
 		$sql = 'SELECT SUM(consumption.total) as total FROM consumption
-				WHERE status="close" AND closed > ? AND closed <= ?';
-		return R::getCell($sql, [ $startDate, $endDate ]);
+				WHERE status="close" AND cash_id = ?';
+		return R::getCell($sql, [$cashId]);
 	}
-	function getPaidCreditTotalByDates($startDate, $endDate){
+	
+	function getPaidCreditTotalByCash($cashId){
 		$sql = 'SELECT SUM(credititem.amount) as total FROM credititem
-				WHERE type="Pago" AND created > ? AND created <= ?';
-		return R::getCell($sql, [ $startDate, $endDate ]) ;
+				WHERE type="Pago" AND cash_id = ?';
+		return R::getCell($sql,[$cashId]);
 	}
-	function getClosedConsumptionsByDates($startDate, $endDate){
-		$consumptions = R::find( 'consumption', 'status="close" AND closed >= ? AND closed <= ? ORDER BY id DESC', [ $startDate, $endDate ] );
+	function getClosedConsumptionsByCash($cashId){
+		$consumptions = R::find( 'consumption', 'status="close" AND cash_id = ? ORDER BY id DESC', [$cashId] );
 		return $consumptions;
 	}
-	function getAllOpenConsumptions(){
-		$consumptions = R::find( 'consumption', 'status="open"');
-		return $consumptions;
-	}
-	function createConsumption($tableId, $tableDescription, $consumptionTypeId, $consumptionTypeDescription){		
+	
+	function createConsumption($cashId, $tableId, $tableDescription, $consumptionTypeId, $consumptionTypeDescription){
 		  $consumption = R::dispense( 'consumption' );
+		  $consumption->cash = R::load('cash', $cashId);
 		  $consumption->tableId = $tableId;
 		  $consumption->tableDescription = $tableDescription;
 		  $consumption->consumptionTypeId = $consumptionTypeId;
@@ -66,7 +67,7 @@ class ConsumptionManager
 		  $consumption->created = date("Y-m-d H:i:s");		  
 		  $id = R::store( $consumption );
 		  return $id;
-	}	
+	}
 	function updateConsumptionTotal($consumptionId){
 		$consumption = self::getConsumption($consumptionId);
 		$subtotal = 0.00;		
@@ -98,6 +99,14 @@ class ConsumptionManager
 		$consumption = self::updateConsumptionTotal($consumptionId);
 		return $consumption;
 	}
+	function updateConsumptionCash($consumptionId, $cashId){
+		$consumption = self::getConsumption($consumptionId);
+		$consumption->cash = R::load('cash', $cashId);
+		$consumption->lastModified = date("Y-m-d H:i:s");
+		R::store( $consumption );
+		$consumption = self::updateConsumptionTotal($consumptionId);
+		return $consumption;
+	}
 	function closeConsumption($consumptionId){
 		$consumption = self::getConsumption($consumptionId);
 		$consumption->status="close";
@@ -115,7 +124,7 @@ class ConsumptionManager
 		return $consumption;
 	}
 	
-	function creditConsumption($consumptionId, $creditId){
+	function creditConsumption($consumptionId, $creditId, $cashId){
 		$consumption = self::getConsumption($consumptionId);
 		$consumption->status="credit";
 		$consumption->credit=R::load('credit', $creditId);
@@ -123,12 +132,12 @@ class ConsumptionManager
 		R::store( $consumption );
 		$descriptionPrefix= $consumption->tableDescription.' - '.$consumption->consumptionTypeDescription;
 		if($consumption->discount<>0){
-			self::createCreditItem($creditId, "Descuento",$descriptionPrefix ,$consumption->discount );
+			self::createCreditItem($creditId, $cashId, "Descuento",$descriptionPrefix ,$consumption->discount );
 		}
 		foreach ($consumption->ownItemList as &$item){
 			$description=$descriptionPrefix.' - '.$item->productDescription.' x'.$item->quantity;
 			$amount= floatval($item->subtotal) * (-1);
-			self::createCreditItem($creditId, "Consumo",$description ,$amount );
+			self::createCreditItem($creditId, $cashId, "Consumo",$description ,$amount );
 		}
 		
 		return $consumption;
@@ -201,9 +210,10 @@ class ConsumptionManager
 	function getAllCredits(){
 		return R::findAll( 'credit' );
 	}
-	function createCreditItem($creditId, $type, $description, $amount){
+	function createCreditItem($creditId, $cashId, $type, $description, $amount){
 		$item = R::dispense( 'credititem' );
 		$item->credit = R::load('credit',$creditId);
+		$item->cash = R::load('cash',$cashId);
 		$item->type = $type;
 		$item->description = $description;
 		$item->amount = $amount;
@@ -211,9 +221,16 @@ class ConsumptionManager
 		$id = R::store( $item );
 		return $id;
 	}
+
+	function updateCreditItemCash($creditItemId, $cashId){
+		$item = R::load('credititem',$creditItemId);
+		$item->cash = R::load('cash', $cashId);
+		R::store( $item );
+		return $item;
+	}
 	function getCreditSheet($creditId){
 		$sql='SELECT "" as created, "Total" as type, "" as description, SUM(amount) as amount FROM credititem WHERE credit_id=:creditId
-UNION SELECT created, type, description, amount FROM credititem WHERE credit_id=:creditId';
+		UNION SELECT created, type, description, amount FROM credititem WHERE credit_id=:creditId';
 		return R::getAll($sql, [':creditId'=>$creditId]);
 	}
 }

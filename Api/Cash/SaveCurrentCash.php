@@ -17,14 +17,9 @@ if(isset($_REQUEST['cashExtraction']))
 $cam = new CashManager();
 $cash = $cam->getCurrentCash();
 
-$startDate = $cash->open;
-$endDate = $cash->closed;
-if($endDate == null){
-	$endDate = date("Y-m-d H:i:s");
-}
 $cm = new ConsumptionManager();
-$paidCredit = $cm->getPaidCreditTotalByDates($startDate, $endDate);
-$registeredSale = $cm->getClosedConsumptionsTotalByDates($startDate, $endDate);
+$paidCredit = $cm->getPaidCreditTotalByCash($cash->id);
+$registeredSale = $cm->getClosedConsumptionsTotalByCash($cash->id);
 $registeredSale=floatval($registeredSale)+floatval($paidCredit);
 
 $cam->updatePaidCredit($cash->id, $paidCredit);

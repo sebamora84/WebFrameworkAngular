@@ -18,13 +18,13 @@ $consumption = $cm->getOpenConsumptionByTable($tableId);
 if($consumption == null){
 	//Ensure threre is an opened cash
 	$cam = new CashManager();
-	$cam->ensureOpenCash();
+	$cash = $cam->ensureOpenCash();
 	//Open a new consumption
 	$ctm = new TableManager();
 	$table = $ctm->getTable($tableId);
 	//Get the default consumption and create one
 	$consumptionType = $cm->getConsumptionType($table->defaultConsumptionTypeId);
-	$consumptionId = $cm->createConsumption($table->id, $table->description, $consumptionType->id, $consumptionType->description);
+	$consumptionId = $cm->createConsumption($cash->id, $table->id, $table->description, $consumptionType->id, $consumptionType->description);
 	$consumption = $cm->getConsumption($consumptionId);
 }
 //Get the item to increase quantity

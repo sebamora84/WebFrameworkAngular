@@ -6,17 +6,22 @@ $cam = new CashManager();
 $cam->freezeCash();
 $frozenCash = $cam->getFrozenCash();
 
+
 $cm = new ConsumptionManager();
-$paidCredit = $cm->getPaidCreditTotalByDates($frozenCash->open, $frozenCash->closed);
-$registeredSale = $cm->getClosedConsumptionsTotalByDates($frozenCash->open, $frozenCash->closed);
+$paidCredit = $cm->getPaidCreditTotalByCash($frozenCash->id);
+$registeredSale = $cm->getClosedConsumptionsTotalByCash($frozenCash->id);
 $registeredSale=floatval($registeredSale)+floatval($paidCredit);
 
 $cam->updatePaidCredit($frozenCash->id, $paidCredit);
 $cam->updateRegisteredSale($frozenCash->id, $registeredSale);
 
-$consumptions = $cm->getOpenConsumptions();
+
+$consumptions = $cm->getAllOpenConsumptions();
 if (sizeof($consumptions)>0){
-	$cam->ensureOpenCash();
+	$openCash = $cam->ensureOpenCash();
+	foreach ($consumptions as &$consumption){
+		$cm->updateConsumptionCash($consumption->id, $openCash->id);
+	}
 }
 
 echo json_encode($cam->getCurrentCash());

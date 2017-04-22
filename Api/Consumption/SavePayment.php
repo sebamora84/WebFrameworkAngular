@@ -16,19 +16,12 @@ if(isset($_REQUEST['description']))
 
 
 $cm = new ConsumptionManager();
-$cm->createCreditItem($creditId, "Pago", $description, $amount);
-
-
 $cam = new CashManager();
 $openCash = $cam->ensureOpenCash();
-$startDate = $openCash->open;
-$endDate = $openCash->closed;
-if($endDate == null){
-	$endDate = date("Y-m-d H:i:s");
-}
+$cm->createCreditItem($creditId, $openCash->id ,"Pago", $description, $amount);
 
-$paidCredit = $cm->getPaidCreditTotalByDates($startDate, $endDate);
-$registeredSale = $cm->getClosedConsumptionsTotalByDates($startDate, $endDate);
+$paidCredit = $cm->getPaidCreditTotalByCash($openCash->id);
+$registeredSale = $cm->getClosedConsumptionsTotalByCash($openCash->id);
 $registeredSale=floatval($registeredSale)+floatval($paidCredit);
 
 $cam->updatePaidCredit($openCash->id, $paidCredit);

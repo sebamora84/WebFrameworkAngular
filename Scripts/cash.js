@@ -91,9 +91,12 @@ $(function(){
 				loadCurrentCash(data);
 			});
 	});
-	$('#closeButtonCash').click(function(event){				
+	$('#closeButtonCash').click(function(event){
+		initialCash = parseFloat($('#initialCash').val());
+		finalCash = parseFloat($('#finalCash').val());
+		cashExtraction = parseFloat($('#cashExtraction').val());
 		$.post("Api/Cash/CloseFrozenCash.php",
-				{ initialCash:initialCash, finalCash:finalCash,  cashExtraction:cashExtraction},
+				{ initialCash:initialCash, finalCash:finalCash, cashExtraction:cashExtraction},
 				function(data, status){
 					$.post("Api/Cash/GetCurrentCash.php",
 							function(data, status){
@@ -140,7 +143,6 @@ $(function(){
 		initialCash = parseFloat($('#initialCash').val());
 		finalCash = parseFloat($('#finalCash').val());
 		cashExtraction = parseFloat($('#cashExtraction').val());
-				
 		$.post("Api/Cash/SaveCurrentCash.php",
 				{ initialCash:initialCash, finalCash:finalCash, cashExtraction:cashExtraction},
 				function(data, status){
