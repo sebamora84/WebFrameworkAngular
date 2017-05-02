@@ -18,7 +18,7 @@ function verifySession(){
 	//Session not started
 	if(!isset($_SESSION["username"])){
 		//Every body has access to index.html No need for a session
-		if($uri=="index.html" || $uri==""){
+		if($uri==null){
 			return;
 		}
 		else{
