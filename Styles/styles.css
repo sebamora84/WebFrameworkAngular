@@ -296,6 +296,12 @@ tr:active {
 #availableRoleTemplate,#assignedRoleTemplate,#availableResourceTemplate,#assignedResourceTemplate{
 	display:none;
 }
+/*Profile*/
+
+#resetPassword{
+	width: 250px;
+	margin: 70px 200px;
+}
 
 /*LOGIN*/
 
