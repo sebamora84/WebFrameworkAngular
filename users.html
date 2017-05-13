@@ -13,10 +13,11 @@ verifySession();
 		<script src="./Scripts/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
 		<script src="./Scripts/list.min.js"></script>
 		<script src="./Scripts/mindmup-editabletable2.js"></script>
+		<script src="./Scripts/angular.min.js"></script>
 		<script src="./Scripts/users.js"></script>
     </head>
 	<body>
-		<div id="userWrapper" class="wrapper">
+		<div data-ng-app="usersApp" id="userWrapper" class="wrapper">
 			<div class="logoheaderwrap">
 				<div class="logoheader">
 				<div class="logo">
@@ -52,7 +53,7 @@ verifySession();
 							<button id="saveUserButton">Generar</button>	
 						</div>
 					</div>
-					<div id="userContainer">
+					<div id="userContainer" data-ng-controller="usersCtrl" >
 						<table id="userTable">
 							<thead>
 								<tr>
@@ -62,7 +63,11 @@ verifySession();
 								</tr>
 							</thead>
 							<tbody>
-								
+								<tr data-ng-repeat="x in users" data-ng-click="selectedUser(x);">
+								    <td>{{ x.id }}</td>
+								    <td>{{ x.username }}</td>
+								    <td>{{ x.reset }}</td>
+								</tr>
 							</tbody>
 						</table>
 					</div>
@@ -77,16 +82,30 @@ verifySession();
 			<div class="middlecolumnwrap">
 				<div class="middlecolumn">
 				<label>Roles Asignados</label>
-					<div id="assignedRolesContainer">
-						
+					<div id="assignedRolesContainer" data-ng-controller="assignedRolesCtrl" >						
+						<div  data-ng-repeat="x in assignedRoles"   class="assignedRole"> 
+							<div class="roleResourceDescription">
+								<label class="roleDescription">{{x.description}}</label>
+							</div> 
+							<div class="roleResourceActions">
+								<img class="buttonRemoveRole" src="Images/Icons/remove.png" alt="+" height="24">
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
 			<div class="rightcolumnwrap">
 				<div class="rightcolumn">				
 					<label>Roles Disponibles</label>
-					<div id="availableRolesContainer">
-												
+					<div id="availableRolesContainer" data-ng-controller="availableRolesCtrl">
+						<div data-ng-repeat="x in availableRoles"  class="availableRole"> 
+							<div class="roleResourceDescription">
+								<label class="roleDescription">{{x.description}}</label>
+							</div> 
+							<div class="roleResourceActions">
+								<img class="buttonAddRole" src="Images/Icons/add.png" alt="+" height="24">
+							</div>
+						</div>				
 					</div>
 				</div>
 			</div>
@@ -130,8 +149,8 @@ verifySession();
 			<div class="rightcolumnwrap">
 				<div class="rightcolumn">				
 					<label>Recursos Disponibles</label>
-					<div id="availableResourcesContainer">
-												
+					<div id="availableResourcesContainer" >
+										
 					</div>
 				</div>
 			</div>
@@ -146,22 +165,7 @@ verifySession();
 				</div>
 			</div>
 		</div>
-		<div id="availableRoleTemplate" class="availableRole"> 
-			<div class="roleResourceDescription">
-				<label class="roleDescription">Somerole</label>
-			</div> 
-			<div class="roleResourceActions">
-				<img class="buttonAddRole" src="Images/Icons/add.png" alt="+" height="24">
-			</div>
-		</div>	
-		<div id="assignedRoleTemplate" class="assignedRole"> 
-			<div class="roleResourceDescription">
-				<label class="roleDescription">Somerole</label>
-			</div> 
-			<div class="roleResourceActions">
-				<img class="buttonRemoveRole" src="Images/Icons/remove.png" alt="+" height="24">
-			</div>
-		</div>
+		
 		<div id="availableResourceTemplate" class="availableResource"> 
 			<div class="roleResourceDescription">
 				<label class="resourceDescription">Someresource</label>

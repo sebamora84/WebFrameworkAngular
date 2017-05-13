@@ -1,3 +1,40 @@
+var app = angular.module('usersApp', []);
+app.controller('usersCtrl', 
+	function($scope,$rootScope, $http) {
+		$http.post("Api/User/GetAllUsers.php")
+	    .then(function (response) {
+	    	$scope.users = response.data;
+	    	});
+		$scope.selectedUser = function(user) {
+				$scope.$emit('userSelected', user);
+			};
+});
+
+app.controller('availableRolesCtrl', 
+	function($scope, $rootScope, $http) {
+		$http.post("Api/User/GetAllRoles.php")
+	    .then(function (response) {
+	    	$scope.availableRoles = response.data;
+	    	});
+});
+
+app.controller('assignedRolesCtrl', 
+		function($scope, $rootScope, $http) {
+		$scope.assignedRoles=null;
+		$rootScope.$on('userSelected', function(event, user) {			
+		
+			$http({
+			 url: 'Api/User/GetUserRoles.php',
+		     method: 'POST',
+		     data: "username="+user.username,
+		     headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'},	
+		})			
+	    .then(function (response) {
+	    	$scope.assignedRoles = response.data;
+	    	});
+		});				
+	});
+
 
 var users;
 var selectedUser;
@@ -7,7 +44,7 @@ var selectedRole;
 var allResources;
 var roleResources;
 $(function() {
-
+		return;
 		loadAllResources();
 		loadAllRoles();
 		loadAllUsers();
