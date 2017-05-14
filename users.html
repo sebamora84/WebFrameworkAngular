@@ -5,55 +5,58 @@ verifySession();
 ?>
 <!DOCTYPE html>
 <html>
-	<head>		
-		<title>Tracker -Usuarios</title>
-		<link rel="stylesheet" href="./Styles/styles.css">
-		<link rel="stylesheet" href="./Styles/jquery-ui.min.css">
-		<script src="./Scripts/jquery-3.1.1.min.js"></script>
-		<script src="./Scripts/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
-		<script src="./Scripts/list.min.js"></script>
-		<script src="./Scripts/mindmup-editabletable2.js"></script>
-		<script src="./Scripts/angular.min.js"></script>
-		<script src="./Scripts/users.js"></script>
-    </head>
-	<body>
-		<div data-ng-app="usersApp" id="userWrapper" class="wrapper">
-			<div class="logoheaderwrap">
-				<div class="logoheader">
+<head>
+<title>Tracker -Usuarios</title>
+<link rel="stylesheet" href="./Styles/styles.css">
+<link rel="stylesheet" href="./Styles/jquery-ui.min.css">
+<script src="./Scripts/jquery-3.1.1.min.js"></script>
+<script src="./Scripts/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
+<script src="./Scripts/list.min.js"></script>
+<script src="./Scripts/mindmup-editabletable2.js"></script>
+<script src="./Scripts/angular.min.js"></script>
+<script src="./Scripts/users.js"></script>
+</head>
+<body>
+	<div data-ng-app="usersApp" id="userWrapper" class="wrapper">
+		<div class="logoheaderwrap">
+			<div class="logoheader">
 				<div class="logo">
-						<a href="./">
-						  <img src="Images/logo.png" alt="Tracker" width="auto" height="30">
-						</a>						
-				</div>
+					<a href="./"> <img src="Images/logo.png" alt="Tracker"
+						width="auto" height="30">
+					</a>
 				</div>
 			</div>
-			<div class="headerwrap">
-				<div class="header">
-					<div class="session">
-						<?php 
+		</div>
+		<div class="headerwrap">
+			<div class="header">
+				<div class="session">
+					<?php 
 							profileButton();
 							sessionButton();
 						?>
-					</div>
 				</div>
 			</div>
-			<div class="navigationwrap">
-				<div class="navigation">
-					<?php 
+		</div>
+		<div class="navigationwrap">
+			<div class="navigation">
+				<?php 
 						menuButtons();
 					?>
-				</div>
 			</div>
-			<div class="leftcolumnwrap">
-				<div class="leftcolumn">
+		</div>
+		<div class="leftcolumnwrap">
+			<div class="leftcolumn">
+				<div data-ng-controller="usersCtrl">
 					<div id="userEditor" class="separator">
 						<div>
-							<p><label for="userName">Nuevo usuario</label>
-							<p><input id="userName" value="">
-							<button id="saveUserButton">Generar</button>	
+							<p>
+								<label for="userName">Nuevo usuario</label>
+							<p>
+								<input id="userName" data-ng-model="newUserName">
+								<button id="saveUserButton" data-ng-click="generateNewUser();">Generar</button>
 						</div>
 					</div>
-					<div id="userContainer" data-ng-controller="usersCtrl" >
+					<div id="userContainer">
 						<table id="userTable">
 							<thead>
 								<tr>
@@ -63,59 +66,67 @@ verifySession();
 								</tr>
 							</thead>
 							<tbody>
-								<tr data-ng-repeat="x in users" data-ng-click="selectedUser(x);">
-								    <td>{{ x.id }}</td>
-								    <td>{{ x.username }}</td>
-								    <td>{{ x.reset }}</td>
+								<tr data-ng-repeat="user in users"
+									data-ng-click="selectedUserChanged(user);"
+									data-ng-class="{trSelected: user==selectedUser}">
+									<td>
+										<label>{{ user.id }}</label>
+									</td>
+									<td>
+										<label>{{ user.username }}</label>
+									</td>
+									<td>
+										<label>{{ user.reset }}</label>
+									</td>
 								</tr>
 							</tbody>
 						</table>
 					</div>
 					<div>
-							<button id="resetUserButton">Reset</button>
-							<button id="deleteUserButton">Borrar</button>
+						<button id="resetUserButton" data-ng-click="resetUser();">Reset</button>
+						<button id="deleteUserButton" data-ng-click="deleteUser();">Borrar</button>
 					</div>
-						
 				</div>
-			</div>	
-			
-			<div class="middlecolumnwrap">
-				<div class="middlecolumn">
+			</div>
+		</div>
+		<div class="middlecolumnwrap">
+			<div class="middlecolumn">
 				<label>Roles Asignados</label>
-					<div id="assignedRolesContainer" data-ng-controller="assignedRolesCtrl" >						
-						<div  data-ng-repeat="x in assignedRoles"   class="assignedRole"> 
-							<div class="roleResourceDescription">
-								<label class="roleDescription">{{x.description}}</label>
-							</div> 
-							<div class="roleResourceActions">
-								<img class="buttonRemoveRole" src="Images/Icons/remove.png" alt="+" height="24">
-							</div>
+				<div id="assignedRolesContainer" data-ng-controller="assignedRolesCtrl">
+					<div data-ng-repeat="role in assignedRoles" class="assignedRole">
+						<div class="roleResourceDescription">
+							<label class="roleDescription">{{role.description}}</label>
+						</div>
+						<div class="roleResourceActions">
+							<img class="buttonRemoveRole" data-ng-click="unassignRole(role)" src="Images/Icons/remove.png" alt="+" height="24">
 						</div>
 					</div>
 				</div>
 			</div>
-			<div class="rightcolumnwrap">
-				<div class="rightcolumn">				
-					<label>Roles Disponibles</label>
-					<div id="availableRolesContainer" data-ng-controller="availableRolesCtrl">
-						<div data-ng-repeat="x in availableRoles"  class="availableRole"> 
-							<div class="roleResourceDescription">
-								<label class="roleDescription">{{x.description}}</label>
-							</div> 
-							<div class="roleResourceActions">
-								<img class="buttonAddRole" src="Images/Icons/add.png" alt="+" height="24">
-							</div>
-						</div>				
+		</div>
+		<div class="rightcolumnwrap">
+			<div class="rightcolumn">
+				<label>Roles Disponibles</label>
+				<div id="availableRolesContainer" data-ng-controller="availableRolesCtrl">
+					<div data-ng-repeat="x in availableRoles" class="availableRole">
+						<div class="roleResourceDescription">
+							<label class="roleDescription">{{x.description}}</label>
+						</div>
+						<div class="roleResourceActions" data-ng-click="addRole">
+							<img class="buttonAddRole" data-ng-click="assignRole(x)" src="Images/Icons/add.png" alt="+" height="24">
+						</div>
 					</div>
 				</div>
 			</div>
-			<div class="leftcolumnwrap">
-				<div class="leftcolumn">
+		</div>
+		<div class="leftcolumnwrap">
+			<div class="leftcolumn">
+				<div data-ng-controller="rolesCtrl">
 					<div id="roleEditor" class="separator">
 						<div>
 							<p><label for="roleDescription">Nuevo Rol</label>
-							<p><input id="roleDescription" value="">
-							<button id="saveRoleButton">Generar</button>	
+							<p><input id="roleDescription" data-ng-model="newRoleDescription">
+								<button id="saveRoleButton" data-ng-click="generateNewRole();">Generar</button>
 						</div>
 					</div>
 					<div id="roleContainer">
@@ -127,60 +138,66 @@ verifySession();
 								</tr>
 							</thead>
 							<tbody>
-								
+							<tr data-ng-repeat="role in roles"
+								data-ng-click="selectedRoleChanged(role);"
+								data-ng-class="{trSelected: role==selectedRole}">
+								<td>
+									<label>{{role.id}}</label>
+								</td>
+								<td>
+									<label >{{role.description}}</label>
+								</td>								
+							</tr>
 							</tbody>
 						</table>
 					</div>
 					<div>
-							<button id="deleteRoleButton">Borrar</button>
+						<button id="deleteRoleButton" data-ng-click="deleteRole();">Borrar</button>
 					</div>
-						
+
 				</div>
-			</div>	
-			
-			<div class="middlecolumnwrap">
-				<div class="middlecolumn">
+			</div>
+		</div>
+
+		<div class="middlecolumnwrap">
+			<div class="middlecolumn">
 				<label>Recursos Asignados</label>
-					<div id="assignedResourcesContainer">
-						
+				<div id="assignedResourcesContainer" data-ng-controller="assignedResourcesCtrl">
+					<div data-ng-repeat="resource in assignedResources" class="assignedResource">
+						<div class="roleResourceDescription">
+							<label class="resourceDescription">{{resource.description}}</label>
+						</div>
+						<div class="roleResourceActions">
+							<img class="buttonRemoveResource" data-ng-click="unassignResource(resource)" src="Images/Icons/remove.png" alt="-" height="24">
+						</div>
 					</div>
 				</div>
 			</div>
-			<div class="rightcolumnwrap">
-				<div class="rightcolumn">				
-					<label>Recursos Disponibles</label>
-					<div id="availableResourcesContainer" >
-										
+		</div>
+		<div class="rightcolumnwrap">
+			<div class="rightcolumn">
+				<label>Recursos Disponibles</label>
+				<div id="availableResourcesContainer" data-ng-controller="availableResourcesCtrl">				
+					<div  data-ng-repeat="resource in availableResources" class="availableResource">
+						<div class="roleResourceDescription">
+							<label class="resourceDescription">{{resource.description}}</label>
+						</div>
+						<div class="roleResourceActions">
+							<img class="buttonAddResource" data-ng-click="assignResource(resource)" src="Images/Icons/add.png" alt="+" height="24">
+						</div>
 					</div>
 				</div>
 			</div>
-			<div class="footerwrap">
-				<div class="footer">
-					
-				</div>
-			</div>
-			<div class="poweredwrap">
-				<div class="powered">
-					<label> Powered by <a href="http://www.linkedin.com/in/sebastian-mora-b1785131">SM</a></label>
-				</div>
+		</div>
+		<div class="footerwrap">
+			<div class="footer"></div>
+		</div>
+		<div class="poweredwrap">
+			<div class="powered">
+				<label> Powered by <a
+					href="http://www.linkedin.com/in/sebastian-mora-b1785131">SM</a></label>
 			</div>
 		</div>
-		
-		<div id="availableResourceTemplate" class="availableResource"> 
-			<div class="roleResourceDescription">
-				<label class="resourceDescription">Someresource</label>
-			</div> 
-			<div class="roleResourceActions">
-				<img class="buttonAddResource" src="Images/Icons/add.png" alt="+" height="24">
-			</div>
-		</div>	
-		<div id="assignedResourceTemplate" class="assignedResource"> 
-			<div class="roleResourceDescription">
-				<label class="resourceDescription">Someresource</label>
-			</div> 
-			<div class="roleResourceActions">
-				<img class="buttonRemoveResource" src="Images/Icons/remove.png" alt="+" height="24">
-			</div>
-		</div>
-	</body>
+	</div>
+</body>
 </html>

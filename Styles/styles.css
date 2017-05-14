@@ -293,9 +293,6 @@ tr:active {
 .assignedRole:hover,.availableRole:hover,.availableResource:hover,.assignedResource:hover {
     opacity:1;
 }
-#availableRoleTemplate,#assignedRoleTemplate,#availableResourceTemplate,#assignedResourceTemplate{
-	display:none;
-}
 /*Profile*/
 
 #resetPassword{
