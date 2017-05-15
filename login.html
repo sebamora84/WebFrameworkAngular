@@ -12,12 +12,12 @@ destroySession();
 		<script src="./Scripts/jquery-3.1.1.min.js"></script>
 		<script src="./Scripts/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
 		<script src="./Scripts/list.min.js"></script>
-		<script src="./Scripts/mindmup-editabletable2.js"></script>
+		<script src="./Scripts/angular.min.js"></script>
 		<script src="./Scripts/login.js"></script>
 		
     </head>
 	<body>
-		<div class="wrapper">
+		<div class="wrapper" data-ng-app="loginApp" >
 			<div class="logoheaderwrap">
 				<div class="logoheader">
 				<div class="logo">
@@ -52,22 +52,22 @@ destroySession();
 			</div>	
 			<div class="middlecolumnwrap">
 				<div class="middlecolumn">
-					<div id="userLogin">
+					<div id="userLogin" data-ng-controller="loginCtrl">
 						<ul>
 							<li>
 								<label for="username">Nombre de Usuario:</label>
-								<input type="text" id="username"><br>
+								<input type="text" id="username" data-ng-model="username" data-ng-keypress="triggerLogin($event)">
 							</li>				
 							<li>
 								<label for="password">Password:</label>
-								<input type="password" id="password"><br>
+								<input type="password" id="password" data-ng-model="password" data-ng-keypress="triggerLogin($event)"><br>
 							</li>
 							<li>
 							<li>
-								<button id="btnStartSession">Iniciar sesion</button>
+								<button id="btnStartSession" data-ng-click="login();">Iniciar sesion</button>
 							</li>
 						</ul>
-						<div id="wrong_user">
+						<div id="wrong_user" data-ng-show="showError">
 							<ul>
 								<li class="invalid"><strong>Usuario o password incorrecto</strong></li>
 							</ul>

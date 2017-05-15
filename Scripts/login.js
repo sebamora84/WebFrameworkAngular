@@ -1,45 +1,43 @@
-$(function(){
-	$('#btnStartSession').click(function(event){
-		$("#wrong_user").hide();
-		username=$("#username").val();
-		password=$("#password").val();
-		if(username=="" || password==""){
-			$("#wrong_user").show()
-			return;
-		}
-		$.post("Api/User/Login.php",
-				{username:username, password:password},
-				function(data, status){
-					if(data!="OK"){
-						$("#wrong_user").show()
-						return;
-					}
-					redirect = GetURLParameter("uri");
-					if(redirect== null){
-						$(location).attr('href',"./");
-						return;
-					}
-					$(location).attr('href',"./"+redirect);
-			});
-	});
-	
-	$('input').keyup(function(e){
-	    if(e.keyCode == 13)
-	    {
-	        $('#btnStartSession').trigger("click");
-	    }
-	})
+var app = angular.module('loginApp', []);
+//Controller for login 
+app.controller('loginCtrl', 
+	function($scope,$location,$window, $http) {
+		//Link actions		
+		$scope.login = login;
+		$scope.triggerLogin = triggerLogin;
+	    //Event listeners
+				
+	    //Functions		
+		function triggerLogin(keyEvent) {
+			  if (keyEvent.which === 13){
+				  login();
+			  }
+			  else{
+				  $scope.showError=false; 
+			  }			    
+		};
+		
+		function login(){
+			var username = $scope.username;
+			var password = $scope.password;
+			
+			$http({
+				 url: 'Api/User/Login.php',
+			     method: 'POST',
+			     data: 'username='+username+'&password='+password,
+			     headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'},	
+			})			
+		   .then(function (response) {
+			   if(response.data=="OK"){
+				   //TODO: check url parameters
+				   //var params = $location.search();
+				   $window.location.href = './';				   
+			   }
+			   else{
+				   $scope.showError=true;				   
+			   }
+			});				
+		};
+		//Initialization
+		
 });
-
-function GetURLParameter(urlParameter){
-	var sPageURL = window.location.search.substring(1);
-	var sURLVariables = sPageURL.split('&');
-    for (var i = 0; i < sURLVariables.length; i++)
-    {
-        var sParameterName = sURLVariables[i].split('=');
-        if (sParameterName[0] == urlParameter)
-        {
-            return sParameterName[1];
-        }
-    }
-}

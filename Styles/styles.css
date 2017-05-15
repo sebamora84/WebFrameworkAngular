@@ -335,9 +335,6 @@ tr:active {
     padding:0;
     font-weight:normal;
 }
-#wrong_user {
-    display:none;
-}
 /*SYSTEM*/
 
 #systemWrapper .leftcolumnwrap {
