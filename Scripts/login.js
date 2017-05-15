@@ -1,7 +1,7 @@
-var app = angular.module('loginApp', []);
+var app = angular.module('loginApp',[]);
 //Controller for login 
 app.controller('loginCtrl', 
-	function($scope,$location,$window, $http) {
+	function($scope,$location, $window, $http) {
 		//Link actions		
 		$scope.login = login;
 		$scope.triggerLogin = triggerLogin;
@@ -29,15 +29,31 @@ app.controller('loginCtrl',
 			})			
 		   .then(function (response) {
 			   if(response.data=="OK"){
-				   //TODO: check url parameters
-				   //var params = $location.search();
-				   $window.location.href = './';				   
+				   var uri = getUrlParameter('uri') ;
+				   $window.location.href = './'+uri;				   
 			   }
 			   else{
 				   $scope.showError=true;				   
 			   }
-			});				
+			});
 		};
+
+		function getUrlParameter(urlParameter){
+			var sPageURL = window.location.search.substring(1);
+			var sURLVariables = sPageURL.split('&');
+		    for (var i = 0; i < sURLVariables.length; i++)
+		    {
+		        var sParameterName = sURLVariables[i].split('=');
+		        if (sParameterName[0] == urlParameter)
+		        {
+		            return sParameterName[1];
+		        }
+		    }
+		    return '';
+		}
 		//Initialization
 		
 });
+
+
+
