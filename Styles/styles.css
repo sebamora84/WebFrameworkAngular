@@ -249,7 +249,21 @@ tr:active {
 .widthMedium{
 	width: 386px;
 }
-
+.invalid {
+	background:url(../Images/Icons/invalid.png) no-repeat 0 50%;
+    padding-left:22px;
+    line-height:24px;
+    color:#ec3f41;
+}
+.valid {
+    background:url(../Images/Icons/valid.png) no-repeat 0 50%;
+    padding-left:22px;
+    line-height:24px;
+    color:#3a7d34;
+}
+[data\ng\cloak],[data-ng-cloak],.data-ng-cloak{
+	display:none !important;
+}
 /*USERS*/
 
 
@@ -370,7 +384,7 @@ tr:active {
 
 #pswd_incorrect {
     position:relative;
-    top:-526px;
+    top:-238px;
 	left:300px;
     width:250px;
     padding:15px;
@@ -396,12 +410,9 @@ tr:active {
     padding:0;
     font-weight:normal;
 }
-#pswd_incorrect  {
-    display:none;
-}
 #pswd_info {
     position:relative;
-    top:-165px;
+    top:-162px;
 	left:300px;
     width:250px;
     padding:15px;
@@ -427,13 +438,10 @@ tr:active {
     text-shadow:none;
     display:block;
 }
-#pswd_info {
-    display:none;
-}
 
 #pswd_match {
     position:relative;
-    top:-88px;
+    top:-86px;
 	left:300px;
     width:250px;
     padding:15px;
@@ -453,25 +461,5 @@ tr:active {
     color:#ddd;
     text-shadow:none;
     display:block;
-}
-#pswd_match h4 {
-    margin:0 0 10px 0;
-    padding:0;
-    font-weight:normal;
-}
-#pswd_match {
-    display:none;
-}
-.invalid {
-	background:url(../Images/Icons/invalid.png) no-repeat 0 50%;
-    padding-left:22px;
-    line-height:24px;
-    color:#ec3f41;
-}
-.valid {
-    background:url(../Images/Icons/valid.png) no-repeat 0 50%;
-    padding-left:22px;
-    line-height:24px;
-    color:#3a7d34;
 }
  

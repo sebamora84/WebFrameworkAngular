@@ -1,7 +1,7 @@
 var app = angular.module('loginApp',[]);
 //Controller for login 
 app.controller('loginCtrl', 
-	function($scope,$location, $window, $http) {
+	function($scope, $window, $http) {
 		//Link actions		
 		$scope.login = login;
 		$scope.triggerLogin = triggerLogin;

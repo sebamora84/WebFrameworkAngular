@@ -67,7 +67,8 @@ verifySession();
 							<tbody>
 								<tr data-ng-repeat="user in users"
 									data-ng-click="selectedUserChanged(user);"
-									data-ng-class="{trSelected: user==selectedUser}">
+									data-ng-class="{trSelected: user==selectedUser}"
+									data-ng-cloak>
 									<td>
 										<label>{{ user.id }}</label>
 									</td>
@@ -92,7 +93,7 @@ verifySession();
 			<div class="middlecolumn">
 				<label>Roles Asignados</label>
 				<div id="assignedRolesContainer" data-ng-controller="assignedRolesCtrl">
-					<div data-ng-repeat="role in assignedRoles" class="assignedRole">
+					<div data-ng-repeat="role in assignedRoles" class="assignedRole" data-ng-cloak>
 						<div class="roleResourceDescription">
 							<label class="roleDescription">{{role.description}}</label>
 						</div>
@@ -106,7 +107,7 @@ verifySession();
 		<div class="rightcolumnwrap">
 			<div class="rightcolumn">
 				<label>Roles Disponibles</label>
-				<div id="availableRolesContainer" data-ng-controller="availableRolesCtrl">
+				<div id="availableRolesContainer" data-ng-controller="availableRolesCtrl" data-ng-cloak>
 					<div data-ng-repeat="x in availableRoles" class="availableRole">
 						<div class="roleResourceDescription">
 							<label class="roleDescription">{{x.description}}</label>
@@ -139,7 +140,8 @@ verifySession();
 							<tbody>
 							<tr data-ng-repeat="role in roles"
 								data-ng-click="selectedRoleChanged(role);"
-								data-ng-class="{trSelected: role==selectedRole}">
+								data-ng-class="{trSelected: role==selectedRole}"
+								data-ng-cloak>
 								<td>
 									<label>{{role.id}}</label>
 								</td>
@@ -162,7 +164,7 @@ verifySession();
 			<div class="middlecolumn">
 				<label>Recursos Asignados</label>
 				<div id="assignedResourcesContainer" data-ng-controller="assignedResourcesCtrl">
-					<div data-ng-repeat="resource in assignedResources" class="assignedResource">
+					<div data-ng-repeat="resource in assignedResources" class="assignedResource" data-ng-cloak>
 						<div class="roleResourceDescription">
 							<label class="resourceDescription">{{resource.description}}</label>
 						</div>
@@ -177,7 +179,7 @@ verifySession();
 			<div class="rightcolumn">
 				<label>Recursos Disponibles</label>
 				<div id="availableResourcesContainer" data-ng-controller="availableResourcesCtrl">				
-					<div  data-ng-repeat="resource in availableResources" class="availableResource">
+					<div  data-ng-repeat="resource in availableResources" class="availableResource" data-ng-cloak>
 						<div class="roleResourceDescription">
 							<label class="resourceDescription">{{resource.description}}</label>
 						</div>

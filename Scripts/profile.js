@@ -1,112 +1,89 @@
-$(function(){		
-	validateFields();
-	$( '#savePasswordButton' ).click(function( event ) {
-		if ( $('#letter').attr('class') !== "valid" ||
-			$('#number').attr('class') !== "valid" ||
-			$('#length').attr('class') !== "valid") {
-			$('#newPassword').focus();
-			return;
+var app = angular.module('profileApp',[]);
+//Controller for login 
+app.controller('passwordCtrl', 
+	function($scope, $window, $http) {
+		//Link actions		
+		$scope.savePassword = savePassword;
+		$scope.triggerValidation = triggerValidation;
+		$scope.triggerValidPassword = triggerValidPassword;
+	    //Event listeners
+				
+	    //Functions		
+		function triggerValidPassword(keyEvent) {
+			$scope.passwordValid=true;
+		};
+		function triggerValidation(keyEvent) {
+			validatePassword();
+		};
+		
+		function savePassword(){
+			//Validate password requirements before sending to server
+			validatePassword();
+			if(!$scope.lenghtValid || !$scope.leterValid || !$scope.numberValid){
+				//TODO:focus on new password
+				return;
+			}
+			if(!$scope.matchValid){
+				//TODO:focus on repeat password
+				return;
+			}		
+			//Send change request to server
+			var newPassword = $scope.newPassword;
+			var currentPassword = $scope.currentPassword;
+			$http({
+				 url: 'Api/User/ChangePassword.php',
+			     method: 'POST',
+			     data: 'currentPassword='+currentPassword+'&newPassword='+newPassword,
+			     headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'},	
+			})			
+		   .then(function (response) {
+			   if(response.data=="INCORRECT"){
+				   //TODO:Focus on current password
+				   $scope.passwordValid=false;	   
+			   }
+			   else{
+					$window.location.href = './'+getUrlParameter('uri');	
+			   }
+			});			
+		};
+
+		function validatePassword(){
+			//validate the length
+			$scope.lenghtValid=$scope.newPassword.length >= 8;
+			//validate letter
+			$scope.leterValid=$scope.newPassword.match(/[A-z]/)!=null;
+			//validate number
+			$scope.numberValid=$scope.newPassword.match(/\d/)!=null;
+			//validate confirm
+			$scope.matchValid=$scope.newPassword==$scope.repeatPassword;
 		}
-		if ( $('#match').attr('class') !== "valid") {
-			$('#repeatPassword').focus();
-			return;
+
+		function getUrlParameter(urlParameter){
+			var sPageURL = window.location.search.substring(1);
+			var sURLVariables = sPageURL.split('&');
+		    for (var i = 0; i < sURLVariables.length; i++)
+		    {
+		        var sParameterName = sURLVariables[i].split('=');
+		        if (sParameterName[0] == urlParameter)
+		        {
+		            return sParameterName[1];
+		        }
+		    }
+		    return '';
 		}
-		currentPassword = $('#currentPassword').val();
-		newPassword = $('#newPassword').val();
-		$.post("Api/User/ChangePassword.php",
-				{currentPassword:currentPassword, newPassword:newPassword },
-				function(data, status){
-					$('input').val("");
-					if(data=="INCORRECT"){
-						$('#currentPassword').focus();
-						$('#pswd_incorrect').show();
-					}
-					else{
-						redirect = GetURLParameter("uri");
-						if(redirect!= null){
-							$(location).attr('href',"./"+redirect);	
-							return;
-						}
-						else{
-							$(location).attr('href',"./login.html");	
-							return;
-						}
-					}
-			});
-	});
+		//Initialization
+		$scope.newPassword=''
+		$scope.mustChange=getUrlParameter('m')=='reset';
+		//validate the length
+		$scope.lenghtValid=true;
+		//validate letter
+		$scope.leterValid=true;
+		//validate number
+		$scope.numberValid=true;
+		//validate confirm
+		$scope.matchValid=true;
+		//Validate Password
+		$scope.passwordValid=true;
+		
 });
 
-function validateFields(){
-		$('#currentPassword').focus(function() {
-			$('#pswd_incorrect').hide();
-		}).blur(function() {
-			$('#pswd_incorrect').hide();
-		});
-		$('#newPassword').keyup(function() {
-			validatePassword();
-		}).focus(function() {
-			$('#pswd_info').show();
-		}).blur(function() {
-			$('#pswd_info').hide();
-		});
-		$('#repeatPassword').keyup(function() {
-			validatePassword();
-		}).focus(function() {
-			$('#pswd_match').show();
-		}).blur(function() {
-			$('#pswd_match').hide();
-		});
-		$('#repeatPassword').keyup(function() {
-			validatePassword();
-		}).focus(function() {
-			$('#pswd_match').show();
-		}).blur(function() {
-			$('#pswd_match').hide();
-		});
-}
-
-function validatePassword (){
-	var pswd = $('#newPassword').val();
-	//validate the length
-	if ( pswd.length < 8 ) {
-		$('#length').removeClass('valid').addClass('invalid');
-	} else {
-		$('#length').removeClass('invalid').addClass('valid');
-	}
-	
-	//validate letter
-	if ( pswd.match(/[A-z]/) ) {
-		$('#letter').removeClass('invalid').addClass('valid');
-	} else {
-		$('#letter').removeClass('valid').addClass('invalid');
-	}
-
-	//validate number
-	if ( pswd.match(/\d/) ) {
-		$('#number').removeClass('invalid').addClass('valid');
-	} else {
-		$('#number').removeClass('valid').addClass('invalid');
-	}
-	
-	//validate confirm
-	var repeatPassword = $('#repeatPassword').val();
-	if(pswd===repeatPassword)	{
-		$('#match').removeClass('invalid').addClass('valid');
-	} else {
-		$('#match').removeClass('valid').addClass('invalid');
-	}
-}
-
-
-function GetURLParameter(urlParameter){
-	var sPageURL = window.location.search.substring(1);
-	var sURLVariables = sPageURL.split('&');
-    for (var i = 0; i < sURLVariables.length; i++)
-    {
-        var sParameterName = sURLVariables[i].split('=');
-        if (sParameterName[0] == urlParameter)
-        {
-            return sParameterName[1];
-        }
-    }
-}

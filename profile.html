@@ -12,11 +12,11 @@ verifySession();
 		<script src="./Scripts/jquery-3.1.1.min.js"></script>
 		<script src="./Scripts/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
 		<script src="./Scripts/list.min.js"></script>
-		<script src="./Scripts/mindmup-editabletable2.js"></script>
+		<script src="./Scripts/angular.min.js"></script>
 		<script src="./Scripts/profile.js"></script>
     </head>
 	<body>
-		<div class="wrapper">
+		<div class="wrapper" data-ng-app="profileApp">
 			<div class="logoheaderwrap">
 				<div class="logoheader">
 					<div class="logo">
@@ -50,39 +50,44 @@ verifySession();
 				</div>
 			</div>	
 			<div class="middlecolumnwrap">
-				<div class="middlecolumn">
-					<div id="resetPassword">
+				<div class="middlecolumn">					
+					<div id="resetPassword" data-ng-controller="passwordCtrl">
+						<div id="pswd_must" data-ng- data-ng-show="mustChange" data-ng-cloak>
+							<ul>
+								<li class="invalid"><strong>Debe cambiar el password</strong></li>
+							</ul>
+						</div>
 						<div class="passwordEditor">
 							<p><label for="currentPassword">Password Actual</label> 
-							<p><input id="currentPassword" value="" type="password">	
+							<p><input id="currentPassword" data-ng-model="currentPassword" type="password" data-ng-keyup="triggerValidPassword($event)">	
 							<p><label for="newPassword">Password Nuevo</label> 
-							<p><input id="newPassword" value="" type="password">	
+							<p><input id="newPassword" data-ng-model="newPassword" type="password" data-ng-keyup="triggerValidation($event)">	
 							<p><label for="repeatPassword">Repetir Password</label> 
-							<p><input id="repeatPassword" value="" type="password">		
-							
+							<p><input id="repeatPassword" data-ng-model="repeatPassword" type="password" data-ng-keyup="triggerValidation($event)">
 						</div>
 						<div class="passwordEditorActions">
-							<button id="savePasswordButton">Guardar</button>
+							<button id="savePasswordButton" data-ng-click="savePassword()">Guardar</button>
 						</div>
-						<div id="pswd_info">
+						
+						<div id="pswd_incorrect" data-ng-show="!passwordValid" data-ng-cloak>
+							<ul>
+								<li id="incorrect" data-ng-class="{invalid:true, valid:passwordValid}"><strong>Password incorrecto</strong></li>
+							</ul>
+						</div>
+						<div id="pswd_info" data-ng-show="(!leterValid||!numberValid||!lenghtValid) && passwordValid" data-ng-cloak>
 							<h4>El password debe tener los siguientes requerimientos:</h4>
 							<ul>
-								<li id="letter" class="invalid">Al menos <strong>una letra</strong></li>
-								<li id="number" class="invalid">Al menos <strong>un numero</strong></li>
-								<li id="length" class="invalid">Al menos <strong>8 caracteres</strong></li>
+								<li id="letter" data-ng-class="{invalid:true, valid:leterValid}">Al menos <strong>una letra</strong></li>
+								<li id="number" data-ng-class="{invalid:true, valid:numberValid}">Al menos <strong>un numero</strong></li>
+								<li id="length" data-ng-class="{invalid:true, valid:lenghtValid}">Al menos <strong>8 caracteres</strong></li>
 							</ul>
 						</div>
 						
-						<div id="pswd_match">
+						<div id="pswd_match" data-ng-show="!matchValid && leterValid && numberValid && lenghtValid && passwordValid" data-ng-cloak>
 							<ul>
-								<li id="match" class="invalid"><strong>El password debe coincidir</strong></li>
+								<li id="match" data-ng-class="{invalid:true, valid:matchValid}"><strong>El password debe coincidir</strong></li>
 							</ul>
 						</div>	
-						<div id="pswd_incorrect">
-							<ul>
-								<li id="incorrect" class="invalid"><strong>Password incorrecto</strong></li>
-							</ul>
-						</div>
 					</div>	
 				</div>				
 			</div>			
