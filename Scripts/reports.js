@@ -29,13 +29,28 @@ app.controller('reportExecutionCtrl',
 		
 	    //Functions
 		function executeSelectedReport() {
-			//TODO: get reportId, parameters and call post
-			var columnNames=['A','B','C'];
-			var reportItems={
-					0:{A:'indexa', B:'2', C:'3'},
-					1:{A:'4', B:'5', C:'6'},
-					};;
-			$scope.$emit('reportExecuted', columnNames, reportItems);
+			
+			var jsonParameters ={};
+			$.each($scope.selectedReport.parameters, function(index, parameter){
+				jsonParameters[':'+parameter.name]= parameter.selectedValue;			
+			});
+			
+			$.post("Api/Reports/ExecuteReport.php",
+					{reportId:$scope.selectedReport.id, jsonParameters:jsonParameters },
+					function(data, status){
+						
+						var reportResult = data;
+						   
+						   
+						   $scope.$emit('reportExecuted', columnNames, reportItems);
+				
+			});
+			
+			
+
+
+			
+			
 			};
 
 		function loadAllReports(){	

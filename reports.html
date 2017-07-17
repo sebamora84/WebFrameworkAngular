@@ -64,7 +64,7 @@ verifySession();
 						<div data-ng-repeat="parameter in selectedReport.parameters" data-ng-cloak>						
 							<label>{{parameter.description}}</label>
 							<div data-ng-show="parameter.type=='text'">
-								<input type="text" value='{{parameter.selectedValue}}'>
+								<input type="text" data-ng-model="parameter.selectedValue">
 							</div>
 							<div data-ng-show="parameter.type=='select'">
 								<select 
@@ -74,7 +74,7 @@ verifySession();
 								</select>
 							</div>
 							<div data-ng-show="parameter.type=='datetime' && setDateTime()">
-								<input type="text" class='datetimePicker' value='{{parameter.selectedValue}}'>
+								<input type="text" class="datetimePicker" data-ng-model="parameter.selectedValue">
 							</div>
 						</div>
 						<div>
