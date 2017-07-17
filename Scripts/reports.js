@@ -1,4 +1,74 @@
+var app = angular.module('reportsApp', []);
+
+//Controller for reportResults 
+app.controller('reportResultCtrl', 
+	function($scope,$rootScope, $http) {
+		//Link actions		
+		$scope.selectedReportItemChanged = selectedReportItemChanged;
+	    //Event listeners
+		$rootScope.$on('reportExecuted', function(event, columnNames, reportItems){
+			$scope.columnNames = columnNames;
+			$scope.reportItems = reportItems;
+			
+			});
+	    //Functions
+		function selectedReportItemChanged(reportItem) {
+			$scope.selectedReportItem = reportItem;
+			};
+		//Initializations
+});
+
+
+//Controller for reportResults 
+app.controller('reportExecutionCtrl', 
+	function($scope,$rootScope, $http) {
+		//Link actions		
+		$scope.executeSelectedReport = executeSelectedReport;
+		$scope.setDateTime=setDateTime;
+	    //Event listeners
+		
+	    //Functions
+		function executeSelectedReport() {
+			//TODO: get reportId, parameters and call post
+			var columnNames=['A','B','C'];
+			var reportItems={
+					0:{A:'indexa', B:'2', C:'3'},
+					1:{A:'4', B:'5', C:'6'},
+					};;
+			$scope.$emit('reportExecuted', columnNames, reportItems);
+			};
+
+		function loadAllReports(){	
+			$http.post("Api/Reports/GetAllReports.php")
+	        .then(function (response) {
+	        	$scope.reports=response.data;
+	        	angular.forEach($scope.reports, function(report){ 
+	        		report.parameters= angular.fromJson(report.parameters);
+	        		angular.forEach(report.parameters, function(parameter){ 
+	        			parameter.selectedValue= parameter.defval;
+	        			
+	        		});
+	        	   });
+	        	});
+		}
+		function setDateTime(){
+			$('.datetimePicker').datetimepicker({
+				startDate:'-1970/01/02',
+				format:'Y-m-d H:i:s'
+				});
+			$.datetimepicker.setLocale('es');
+			return true;
+		}
+		//Initializations
+		loadAllReports();
+		
+		
+});
+
+
+
 $(function(){
+	return;
 	loadAllReports();
 	
 	$('#reportExecute').click(function(){
@@ -45,7 +115,7 @@ $(function(){
 	
 });
 var reports;
-function loadAllReports(){
+function loadAllReportsx(){
 			
 			//build productTable header	
 			$.post("Api/Reports/GetAllReports.php",
@@ -109,8 +179,6 @@ function loadReportParameters(reportId){
 						'<input type="text" id="' + inputId + '">' +
 					'</div>'						
 					);
-		}
-
-		
+		}		
 	});
 }
