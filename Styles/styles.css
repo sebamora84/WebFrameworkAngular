@@ -212,6 +212,27 @@ textarea:focus {
     border-bottom-color:#b8d4ea;
     box-shadow:0 0 5px #b9d4e9;
 }
+
+
+select {
+	border:1px solid #d5d9da;
+    border-radius:5px;
+    background-color: white;    
+    box-shadow: 0 0 5px #e8e9eb inset;   
+    outline:none; 
+	margin:10px 10px;
+    padding:10px 10px;     
+    font-size:1em;    
+	text-align: left; 
+}
+select:focus {
+    border:1px solid #b9d4e9;
+    border-top-color:#b6d5ea;
+    border-bottom-color:#b8d4ea;
+    box-shadow:0 0 5px #b9d4e9;
+}
+
+
 table {
     width: calc(100% - 15px);;
     margin: 5px 10px 10px 10px;

@@ -50,11 +50,16 @@ verifySession();
 					<div data-ng-controller="reportExecutionCtrl">
 						<div>
 							<label for="reportSelect">Reporte</label> 
-							<select id="reportSelect" 
+							<!--select id="reportSelect" 
 							data-ng-options="report.description for report in reports track by report.id" 
-							data-ng-model="selectedReport">
-								<option value="">- - Seleccione un Reporte - -</option>
-							</select>
+							data-ng-model="selectedReport"-->
+							<div>
+								<select id="reportSelect" 
+								data-ng-options="report.description for report in reports track by report.id" 
+								data-ng-model="selectedReport">
+									<option value="">- - Seleccione un Reporte - -</option>
+								</select>
+							</div>
 						</div>						
 						<div data-ng-repeat="parameter in selectedReport.parameters" data-ng-cloak>						
 							<label>{{parameter.description}}</label>
@@ -65,6 +70,7 @@ verifySession();
 								<select 
 									data-ng-options="item.description for item in parameter.defval track by item.value" 
 									data-ng-model="parameter.selectedValue">
+									<option value="">- - Seleccione una opción - -</option>
 								</select>
 							</div>
 							<div data-ng-show="parameter.type=='datetime' && setDateTime()">
