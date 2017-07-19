@@ -3,8 +3,7 @@ var app = angular.module('reportsApp', []);
 //Controller for reportResults 
 app.controller('reportResultCtrl', 
 	function($scope,$rootScope, $http) {
-		//Link actions		
-		$scope.selectedReportItemChanged = selectedReportItemChanged;
+		//Link actions	
 	    //Event listeners
 		$rootScope.$on('reportExecuted', function(event, columnNames, reportItems){
 			$scope.columnNames = columnNames;
@@ -12,9 +11,6 @@ app.controller('reportResultCtrl',
 			
 			});
 	    //Functions
-		function selectedReportItemChanged(reportItem) {
-			$scope.selectedReportItem = reportItem;
-			};
 		//Initializations
 });
 
@@ -29,29 +25,29 @@ app.controller('reportExecutionCtrl',
 		
 	    //Functions
 		function executeSelectedReport() {
-			
-			var jsonParameters ={};
+			//TODO: migrate method to Angular
+			var jsonParameters ="";
 			$.each($scope.selectedReport.parameters, function(index, parameter){
-				jsonParameters[':'+parameter.name]= parameter.selectedValue;			
+				jsonParameters+='&jsonParameters[:'+parameter.name+']='+ parameter.selectedValue;			
 			});
 			
-			$.post("Api/Reports/ExecuteReport.php",
-					{reportId:$scope.selectedReport.id, jsonParameters:jsonParameters },
-					function(data, status){
-						
-						var reportResult = data;
-						   
-						   
-						   $scope.$emit('reportExecuted', columnNames, reportItems);
-				
-			});
-			
-			
-
-
-			
-			
-			};
+			$http({
+				 url: 'Api/Reports/ExecuteReport.php',
+			     method: 'POST',
+			     data: 'reportId='+$scope.selectedReport.id+jsonParameters ,
+			     headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'},	
+			})			
+		   .then(function (response) {
+			   var reportResult=response.data;
+			   if(reportResult.length==0){
+					 var columnNames=['Sin Resultados'];						 
+				 }
+				 else{
+					   var columnNames=Object.keys(reportResult[0]);
+				 }
+			   $scope.$emit('reportExecuted', columnNames, reportResult);
+			});	
+		};
 
 		function loadAllReports(){	
 			$http.post("Api/Reports/GetAllReports.php")
