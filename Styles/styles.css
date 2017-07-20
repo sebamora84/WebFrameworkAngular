@@ -370,19 +370,19 @@ tr:active {
     padding:0;
     font-weight:normal;
 }
-/*SYSTEM*/
+/*reportsConfiguration*/
 
-#systemWrapper .leftcolumnwrap {
+#reportsConfigurationWrapper .leftcolumnwrap {
     width: 400px;
 }
-#systemWrapper .middlecolumnwrap {
+#reportsConfigurationWrapper .middlecolumnwrap {
     width: 800px;
 }
-#systemWrapper .middlecolumnwrap input{
+#reportsConfigurationWrapper .middlecolumnwrap input{
 	text-align: left; 
 	width:752px; 
 }
-#systemWrapper .middlecolumnwrap textarea{
+#reportsConfigurationWrapper .middlecolumnwrap textarea{
 	width:752px;
 	height:90px; 
 }
