@@ -20,14 +20,10 @@ app.controller('reportExecutionCtrl',
 	function($scope,$rootScope, $http) {
 		//Link actions		
 		$scope.executeSelectedReport = executeSelectedReport;
-		$scope.configureReports = configureReports;
 		$scope.setDateTime=setDateTime;
 	    //Event listeners
 		
 	    //Functions
-		function configureReports(){
-			
-		}
 		function executeSelectedReport() {
 			//TODO: migrate method to Angular
 			var jsonParameters ="";

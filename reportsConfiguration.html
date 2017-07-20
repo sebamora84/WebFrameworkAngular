@@ -11,12 +11,11 @@ verifySession();
 		<link rel="stylesheet" href="./Styles/jquery-ui.min.css">
 		<script src="./Scripts/jquery-3.1.1.min.js"></script>
 		<script src="./Scripts/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
-		<script src="./Scripts/list.min.js"></script>
-		<script src="./Scripts/mindmup-editabletable2.js"></script>		
+		<script src="./Scripts/angular.min.js"></script>
 		<script src="./Scripts/reportsConfiguration.js"></script>	
     </head>
 	<body>
-		<div id="reportsConfigurationWrapper" class="wrapper">
+		<div id="reportsConfigurationWrapper" class="wrapper"  data-ng-app="reportsConfigurationApp">
 			<div class="logoheaderwrap">
 				<div class="logoheader">
 					<div class="logo">
@@ -46,8 +45,8 @@ verifySession();
 				
 			<div class="leftcolumnwrap">
 				<div class="leftcolumn">
-				<div id="productsDetail">
-				<h1>Configuración de Reportes</h1>
+				    <div data-ng-controller="reportSelectorCtrl">
+						<h1>Configuración de Reportes</h1>
 						<div id="reportDetailContainer">
 							<table id="reportDetailTable">
 								<thead>
@@ -57,7 +56,17 @@ verifySession();
 									</tr>
 								</thead>
 								<tbody>
-									
+									<tr data-ng-repeat="report in reports" 
+										data-ng-click="selectedReportChanged(report);"
+										data-ng-class="{trSelected: report==selectedReport}"
+										data-ng-cloak>
+										<td>
+											<label>{{report.id}}</label>
+										</td>
+										<td>
+											<label>{{report.description}}</label>
+										</td>
+									</tr>
 								</tbody>
 							</table>
 						</div>
@@ -66,20 +75,22 @@ verifySession();
 			</div>			
 			<div class="middlecolumnwrap">
 				<div class="middlecolumn">
-					<div class="reportEditor">
-						<p><label for="reportId">Id</label> 
-						<p><input id="reportId" value="" disabled="disabled">		
-						<p><label for="reportDescription">Descripcion</label>
-						<p><input id="reportDescription" value="">
-						<p><label for="reportDescription">SQL</label>
-						<p><textarea id="reportSql" ></textarea>
-						<p><label for="reportParameters">Parametros</label>
-						<p><textarea id="reportParameters"></textarea>
-					</div>
-					<div class="reportEditorActions">
-						<button id="newReportButton">Nuevo</button>	
-						<button id="saveReportButton">Guardar</button>
-						<button id="deleteReportButton">Borrar</button>
+					<div data-ng-controller="reportEditorCtrl">
+						<div class="reportEditor">
+							<p><label for="reportId">Id</label> 
+							<p><input id="reportId" data-ng-model="report.id" disabled="disabled">		
+							<p><label for="reportDescription">Descripcion</label>
+							<p><input id="reportDescription" data-ng-model="report.description">
+							<p><label for="reportDescription">SQL</label>
+							<p><textarea id="reportSql" data-ng-model="report.sql"></textarea>
+							<p><label for="reportParameters">Parametros</label>
+							<p><textarea id="reportParameters" data-ng-model="report.parameters"></textarea>
+						</div>
+						<div class="reportEditorActions">
+							<button id="newReportButton" data-ng-click="newReport();">Nuevo</button>	
+							<button id="saveReportButton" data-ng-click="saveReport();">Guardar</button>
+							<button id="deleteReportButton" data-ng-click="deleteReport();">Borrar</button>
+						</div>
 					</div>
 				</div>
 			</div>
